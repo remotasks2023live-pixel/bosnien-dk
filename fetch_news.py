@@ -98,6 +98,22 @@ CATEGORIES = {
 MAX_ITEMS_PER_CATEGORY = 10
 MAX_AGE_DAYS = 14  # ignorer artikler ældre end dette
 
+# Ord der skal optræde i overskriften, for at artiklen regnes som relevant.
+# Dette luger ud i "falske positive" fra brede søgninger (fx artikler der kun
+# tilfældigt matcher søgeordene uden reelt at handle om Bosnien-Hercegovina).
+RELEVANCE_KEYWORDS = [
+    "bosni", "hercegovin", "herzegovin", "sarajevo", "mostar",
+    "banja luka", "tuzla", "zenica", "brčko", "brcko",
+    "republika srpska", "bosanac", "bosanka", "bosanski", "bosnisk",
+]
+
+
+def is_relevant(title):
+    if not title:
+        return False
+    lowered = title.lower()
+    return any(keyword in lowered for keyword in RELEVANCE_KEYWORDS)
+
 # ---------------------------------------------------------------------------
 # 2) HENT OG PARSE
 # ---------------------------------------------------------------------------
@@ -129,6 +145,9 @@ def fetch_category(feeds):
             link = entry.get("link")
             if not link or link in seen_links:
                 continue
+            original_title = clean_title(entry.get("title", ""))
+            if not is_relevant(original_title):
+                continue
             seen_links.add(link)
             dt = parse_entry_date(entry)
             if dt and (datetime.now(timezone.utc) - dt).days > MAX_AGE_DAYS:
@@ -136,7 +155,6 @@ def fetch_category(feeds):
             source = ""
             if "source" in entry and hasattr(entry.source, "title"):
                 source = entry.source.title
-            original_title = clean_title(entry.get("title", ""))
             items.append({
                 "title": translate_to_danish(original_title),
                 "original_title": original_title,
