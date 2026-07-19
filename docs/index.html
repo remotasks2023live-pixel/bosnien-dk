@@ -3,17 +3,272 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>bosnien.dk - klargøres</title>
+<title>bosnien.dk - Alt om Bosnien-Hercegovina</title>
+<meta name="description" content="Aktuel information om Bosnien-Hercegovina: sport, politik, turisme, rejser, folk og kultur, samt bosnisk-danske nyheder. Opdateres automatisk.">
 <style>
-  body { font-family: sans-serif; background:#0f1720; color:#eef2f6; display:flex; align-items:center; justify-content:center; height:100vh; margin:0; text-align:center; }
-  div { max-width: 500px; padding: 2rem; }
-  h1 { color:#ffd200; }
+  :root {
+    --bg: #0a1e5c;
+    --card: #0f2a7a;
+    --accent: #fecb00;
+    --accent2: #002395;
+    --text: #ffffff;
+    --muted: #a8bce8;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.5;
+  }
+  header {
+    background: linear-gradient(135deg, var(--accent2), #0a1e5c);
+    padding: 2.5rem 1.5rem 2rem;
+    text-align: center;
+    border-bottom: 5px solid var(--accent);
+    position: relative;
+    overflow: hidden;
+  }
+  header::after {
+    content: "";
+    position: absolute;
+    top: -40%;
+    right: -10%;
+    width: 260px;
+    height: 260px;
+    background: var(--accent);
+    clip-path: polygon(0 0, 100% 0, 0 100%);
+    opacity: 0.9;
+  }
+  header h1 {
+    margin: 0 0 .4rem;
+    font-size: 2.2rem;
+    letter-spacing: -0.02em;
+    position: relative;
+  }
+  header p {
+    margin: 0;
+    color: #dce6fa;
+    font-size: 1rem;
+    position: relative;
+  }
+  nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: .5rem;
+    padding: 1rem;
+    background: #081a4d;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  nav a {
+    color: var(--text);
+    text-decoration: none;
+    background: var(--card);
+    padding: .4rem .9rem;
+    border-radius: 999px;
+    font-size: .85rem;
+    border: 1px solid #1b3a8f;
+  }
+  nav a:hover { border-color: var(--accent); }
+  main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 1.5rem 1rem 3rem;
+    display: grid;
+    gap: 1.5rem;
+  }
+  .category {
+    background: var(--card);
+    border: 1px solid #1b3a8f;
+    border-top: 3px solid var(--accent);
+    border-radius: 14px;
+    padding: 1.25rem 1.5rem;
+  }
+  .category h2 {
+    margin-top: 0;
+    font-size: 1.25rem;
+    color: #ffffff;
+  }
+  .item-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: .85rem;
+  }
+  .item a {
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 600;
+  }
+  .item a:hover { text-decoration: underline; }
+  .meta {
+    color: var(--muted);
+    font-size: .8rem;
+    margin-top: .15rem;
+  }
+  .empty { color: var(--muted); font-style: italic; }
+  footer {
+    text-align: center;
+    color: var(--muted);
+    font-size: .8rem;
+    padding: 2rem 1rem 3rem;
+  }
 </style>
 </head>
 <body>
-<div>
+<header>
   <h1>🇧🇦 bosnien.dk</h1>
-  <p>Siden klargøres. Den fyldes automatisk med nyheder, når GitHub Actions har kørt første gang (sker automatisk lige efter opsætning, og derefter flere gange dagligt).</p>
-</div>
+  <p>Alt vigtigt om Bosnien-Hercegovina – sport, politik, turisme, rejser, folk og bosnisk-danske nyheder</p>
+</header>
+<nav>
+  <a href="#sport">⚽ Sport</a>
+  <a href="#politik">🏛️ Politik</a>
+  <a href="#turisme_rejser">✈️ Turisme og rejser</a>
+  <a href="#folk_kultur">🎭 Folk og kultur</a>
+  <a href="#bosnien_i_danmark">🇩🇰 Bosnien i Danmark</a>
+  <a href="#generelle_nyheder">📰 Generelle nyheder</a>
+</nav>
+<main>
+  <section class="category" id="sport">
+  <h2>⚽ Sport</h2>
+  <ul class="item-list">
+<li class="item">
+  <a href="https://news.google.com/rss/articles/CBMi0wFBVV95cUxQcjNqQkRtenNPdXFDT3JQMlFsWUR6Z1BPdnVrYUt4RmVYS1RsYlY3VXhTR1hBYmZ5MkFvQ2dJVTU5Y1FIZHF0QWxoNEUzVW5BWXFoeUlOdjRiU0ZSampKdF9sVlZLeElDdTJJcElwRnQxR1pkbWVKb2JmMWRuOWI4dVdhMkFtOXdWR1NtLTNvNnhhZmZrTktRM1FkdjNLWWx0VDc2WlBDejVxSFBXMmdOYWlsWGduakpaalBkSDZHVzZXcG1TM1R5ZExEV0R0LXVsY0JB?oc=5" target="_blank" rel="noopener noreferrer" title="LIVE UPDATES: 10-Man USMNT Defeats Bosnia and Herzegovina to Advance to Round of 16">LIVE-OPDATERINGER: 10-mands USMNT besejrer Bosnien-Hercegovina og går videre til ottendedelsfinalen</a>
+  <div class="meta">US Soccer · 04.07.2026</div>
+</li>
+</ul>
+</section>
+  <section class="category" id="politik">
+  <h2>🏛️ Politik</h2>
+  <ul class="item-list">
+<li class="item">
+  <a href="https://news.google.com/rss/articles/CBMiqAFBVV95cUxQY0E0aHE0UV9JbFhSUC1BZTFVM1FLeUdMdjNsSjlBTnlpOFdKOWIwYzRobzFaWFFIRzAwZzhVQ1dFNDFKakl2Vk9UR055UDd0ODk3RTcySUo4Q3FXMG1zc0t2SWVKOUdFQVdaZnhCcnN1amhMRGFaaTBaQ2ZJaGdrampFZFk4ckVmakxWdm8xM293ZVhhMkw3bU1Iak9iX1BuVTd3NUJmdXDSAagBQVVfeXFMUGNBNGhxNFFfSWxYUlAtQWUxVTNRS3lHTHYzbEo5QU55aThXSjliMGM0aG8xWlhRSEcwMGc4VUNXRTQxSmpJdlZPVEdOeVA3dDg5N0U3MklKOENxVzBtc3NLdkllSjlHRUFXWmZ4QnJzdWpoTERhWmkwWkNmSWhna2pqRWRZOHJFZmpMVnZvMTNvd2VYYTJMN21NSGpPYl9QblU3dzVCZnVw?oc=5" target="_blank" rel="noopener noreferrer" title="BiH FM attends Ministerial Meeting on the worrying Rise in Political Terrorism">BiH FM deltager i ministermødet om den bekymrende stigning i politisk terrorisme</a>
+  <div class="meta">Sarajevo Times · 17.07.2026</div>
+</li>
+<li class="item">
+  <a href="https://news.google.com/rss/articles/CBMi3wFBVV95cUxNT0FyQmlKTnZSakR5eUF5eTU5eHJiMHU3T3BsQnpINGtNWjZYZUEtUnBpVEc3S2ozU3BaQkNBVTVhN3ZIWVMyQm5NdXFnUG5WbU80ZGJPY29fZm5Pa3VlXzIwRlRreU8ybDRCeWhZelUwZmFLS0ptbUhWYmp4d1BESVhHYmNQNEg1bzRnODhueHlPbXpzNEU0ZDl6bzB5UzF6MExtTEx0RVJGVGg5THdEUU80dGIzcWpkcXppYldaZUdmRFh2OW1kejZ0RjYwMFhMd1huZlJOVm1PbEJLYUpJ?oc=5" target="_blank" rel="noopener noreferrer" title="Women candidates in Bosnia and Herzegovina build confidence and solidarity through Council of Europe Academy">Kvindelige kandidater i Bosnien-Hercegovina opbygger tillid og solidaritet gennem Europarådets Akademi</a>
+  <div class="meta">coe.int · 16.07.2026</div>
+</li>
+<li class="item">
+  <a href="https://news.google.com/rss/articles/CBMisgFBVV95cUxNNVFCcDdFV1BlaE5SdlVkVzhjLXFqQ1luNjhCaU1XRXczSGJ0NW12R29nblZKZ2ZBc1hIc1BNZTdaTFhkYW5pRDVDeVpQRzZocG04aWkycHBYcVNtYjEtQlpvTVpfVkpBTGtwaDZkTy1rZDdTSF9IaFVSMlJxTTdwSFoydGk1Ml9lYWVNMHotYTY2TG1pQVlyYXo0QnpQNzMyQjVqYnpxR0JXNmkxbGI4emx3?oc=5" target="_blank" rel="noopener noreferrer" title="Parliament backs resolution on Croats in Bosnia and Herzegovina">Parlamentet støtter beslutningen om kroater i Bosnien-Hercegovina</a>
+  <div class="meta">HRT · 15.07.2026</div>
+</li>
+<li class="item">
+  <a href="https://news.google.com/rss/articles/CBMitAFBVV95cUxPQjRoVmtMRmR3YjlYUzlWUUpDeldJMDBCYzRGNnoxQmoySml6QTdUR0ZvejhpZGZ1emMzbHRsdWJJLW5LWEtacFZIT1hpUTdXb1lXa05zQWZqR2hhZUxTSWtIY2FCQk04QVdWZzdjajQ1RXFJaGlkbFBmT3FSNzZaVUJ0alNTX0hBQ242dW1GS1Y4V2lWaU1SX1lrV3dpNTB2cVFlc3VDa1FyNFg2bGNlSW83QVc?oc=5" target="_blank" rel="noopener noreferrer" title="US–EU Deadlock over High Representative Fuels Serb–Croat Power Play in Bosnia">USA-EU dødvande over den højtstående repræsentant brænder serbisk-kroatisk magtspil i Bosnien</a>
+  <div class="meta">Hungarian Conservative · 14.07.2026</div>
+</li>
+<li class="item">
+  <a href="https://news.google.com/rss/articles/CBMiogFBVV95cUxPN3pVZGp4R3RVZlRiNk5zMnE4Y2Mwc0c2RjlsUEJqRUlLNXVZbFdIVk9Ed2daR2Q4eTFrY2Z3NERKUXNsbFlQNHAxYlNDQlVQbVdSVlQxeG9weHBuNV9iWVRDbmV5aXZETUkxbzRHQVJjRGEzUnRranR0UTh5Sy1GQlpwR2VIVDFQa244bmdjeW85bkd3QkR6YmMxWlRSanpuSWc?oc=5" target="_blank" rel="noopener noreferrer" title="MPs agreed on goal to protect Croats in Bosnia, but question resolution&#x27;s impact">Parlamentsmedlemmer var enige om målet om at beskytte kroater i Bosnien, men sætter spørgsmålstegn ved beslutningens indvirkning</a>
+  <div class="meta">| Hrvatski sabor · 14.07.2026</div>
+</li>
+<li class="item">
+  <a href="https://news.google.com/rss/articles/CBMifEFVX3lxTE12VTlZU1l3V19fN0gyTnFabDdaYWpuSjJLU1Vvd0kydmVUM0plMTF2bTktWWRHSTZHeGRfX2I3UjBNc0M4eTI1V3FIWTdhd095anNKd3ZXczM5ZnRURXd0SHRxV19KRGd2ZEJzSGpob3BnVFNzSzQ0dEstTWU?oc=5" target="_blank" rel="noopener noreferrer" title="Western consensus shatters in the Balkans">Vestlig konsensus brister på Balkan</a>
+  <div class="meta">euractiv.com · 14.07.2026</div>
+</li>
+<li class="item">
+  <a href="https://news.google.com/rss/articles/CBMiwwFBVV95cUxOQnhRQTl5SlVyREp5aDRva2VDNEx5RnBNWng5b0xtRUk3Nm1VeFJTdmgxWmdFN2ljeW9yRXNKcmVfbWk4cmduOEVLRXdORGtsbGUtMWZMR2ZCZFk4UGxtQ0RoaUR3Uk5vOEh2VzF3al83QzFrN09sd0RRS1RuM0stbGRyanROTmRyZVR1Q2gtTGpzUVlGdThQeDhNWl9Ua2N2c3M2ZU9MV0FxdFA2aTE2bVNDRHpRRUdKWk5vZzRzSnlmVUU?oc=5" target="_blank" rel="noopener noreferrer" title="Bosnia and Herzegovina’s EU path: from candidacy status optimism to 113 failed promises">Bosnien-Hercegovinas EU-vej: fra kandidatstatusoptimisme til 113 mislykkede løfter</a>
+  <div class="meta">New Eastern Europe · 09.07.2026</div>
+</li>
+<li class="item">
+  <a href="https://news.google.com/rss/articles/CBMi8AFBVV95cUxOaWsyd0R1NFVRbHNHTmlpTGhqZ1JyV19LMnhaUFFhdEF3OGdmRDM2SUtwNTliSXhvaG14djFVNk01djd2dHBKWDR0OVFJNnJja3NSWnE4U0Rxak9rZ2pHR3NkbDhrQ3k1UHhjY1ZGdW5JbDM2RXNZdnltOHFIRFVGOG1URHU2X19tUHcwWkRfLTZWVkFtS0w1U0gzelhFWHR5Q1V1R3hNQ1BnNFVpa0dsRG1mRm5ydTlGakgyZW9TRmRkTDBzSVBTbkgzWUJIbVptYVE2c0ctOWM1UXdsbXR3MU1Ub3VnaEdYYXZTYktDQTc?oc=5" target="_blank" rel="noopener noreferrer" title="Can soccer unite Bosnia beyond politics? | A Debrief With Jasmin Mujanović And Dženeta Karabegović">Kan fodbold forene Bosnien ud over politik? | En debrief med Jasmin Mujanović og Dzeneta Karabegović</a>
+  <div class="meta">Atlantic Council · 08.07.2026</div>
+</li>
+<li class="item">
+  <a href="https://news.google.com/rss/articles/CBMirgFBVV95cUxOd0ZOY0lvVjcyUVNrNTROVEFsamJvYVdybUNYd1NwVXdsQ1FGeUdGNUNmMmphajBUZWxVakh1RHRwSUhuc3NBYmVfVHRHYlNpdmJWdVEzZ21GRk5MTXFOX3ZscTJmZHRIN29QYXc2TlB2aEhNZF9ycGRKWEN3QUN6MDBoZnpTYnJjVThGaHhvaEJ1SmQ5aFFXcURBWUw0dG15c1JoY0swUHdZcG5tOGc?oc=5" target="_blank" rel="noopener noreferrer" title="Bosnia and Herzegovina’s 2026 Elections Will Test Democratic Delivery">Bosnien-Hercegovinas valg i 2026 vil teste demokratisk levering</a>
+  <div class="meta">Balkan Insight · 06.07.2026</div>
+</li>
+<li class="item">
+  <a href="https://news.google.com/rss/articles/CBMiqwFBVV95cUxPNkNYaHZrRUwtcDc0NkJtRzBkYVREamlDYTUtRVN4ZmRFRFFHaTUzNExvN05xSndyUnNVOXRGY2JReFFETFZCM2F4OGVwU3FPUmRKQ1RXaWZzZGxqS2ZHQ0lFNTF3Z19Ud0lBbHZlZ3IzcTl1d1Y4cEI3eE1OQlF1eElkY2ZNbXZwdVBfSURBTjV4LWRFM3VJZG9UYXRySnpmejQ0Rk12VmkxU00?oc=5" target="_blank" rel="noopener noreferrer" title="&#x27;Accidental American&#x27; Balogun at Crossroads of US, Soccer Politics at World Cup">&#x27;Accidental American&#x27; Balogun ved Crossroads of US, Fodboldpolitik ved VM</a>
+  <div class="meta">GV Wire · 06.07.2026</div>
+</li>
+</ul>
+</section>
+  <section class="category" id="turisme_rejser">
+  <h2>✈️ Turisme og rejser</h2>
+  <ul class="item-list">
+<li class="item">
+  <a href="https://news.google.com/rss/articles/CBMirwFBVV95cUxPYVJMWWxNaUJjblN0eFlYVE83aW4xSmVGUnhLbnFYS2dvQy01YlR3Z2puMXZMNk1YVDBVN1FQUmVXaF9kUVRPX3hrbGZwN2hsZWt5am14OGVQNWlZT3VYZG9yR2c5NnRDN0xIT0FFOE9wdFZqUTdlaWFuejAzX2xLRjdYOHBXYkcyQ1FWNk5tT0lhWndocGhZenRVUlZpcjU0ZmFlWmwzLUtlZXlxLTNn?oc=5" target="_blank" rel="noopener noreferrer" title="Blogeri iz svijeta poručili: BiH je zemlja koju treba upoznati">Bloggere fra hele verden sagde: BiH er et land, der bør kendes</a>
+  <div class="meta">N1 Bosna i Hercegovina · 13.07.2026</div>
+</li>
+</ul>
+</section>
+  <section class="category" id="folk_kultur">
+  <h2>🎭 Folk og kultur</h2>
+  <ul class="item-list">
+<li class="item">
+  <a href="https://news.google.com/rss/articles/CBMiZkFVX3lxTE5IODd6R0Jmb0pzTlBMNEJLNHg5Rzl2SExRajE3c1ItclJWUk9neFV3d3puZnAxV3dtc0p6ZmxoZXhkZnQ1dS1IekZMUWRITWVsWWQ1ZUdDZW1vZjlDV2MteWtQY2V3UQ?oc=5" target="_blank" rel="noopener noreferrer" title="Bosnia and Herzegovina">Bosnien-Hercegovina</a>
+  <div class="meta">Encyclopedia Britannica · 06.07.2026</div>
+</li>
+<li class="item">
+  <a href="https://news.google.com/rss/articles/CBMib0FVX3lxTE5hUXNjcTBPZUFiMDFOQndSendmb09rX01KVWJrY1c0b2RZYXBkY1Q1QmRfLVVKWUFkVEprb09qcjhpNHJRY0VHc0t2REtHZVZkY0tENVNpaUxrRS0zcG85ZTJYSWFhMjJnTklIMGhsSQ?oc=5" target="_blank" rel="noopener noreferrer" title="Bosnia and Herzegovina - Ethnicities, Religions, Languages">Bosnien-Hercegovina - etniciteter, religioner, sprog</a>
+  <div class="meta">Encyclopedia Britannica · 06.07.2026</div>
+</li>
+</ul>
+</section>
+  <section class="category" id="bosnien_i_danmark">
+  <h2>🇩🇰 Bosnien i Danmark</h2>
+  <ul class="item-list">
+<li class="item">
+  <a href="https://news.google.com/rss/articles/CBMikwFBVV95cUxPZmR1X29ISTJ5bW1PNVlGaXNTOHNjQjRkY0tFTzRVX3JBd19vemRFQ1ZmR0xBS3hYM09OWXF1UWpidVNJdmFOc3R3SXVXRUxCYlN1cGZ5OWhIbHRXZ04wS0xDT3E3YXRqOEdrWGRMdS1SVjloSEV4U2pFSkZuOWZpY2h5cXE1YV9lTThnMjIyOWdNZ3c?oc=5" target="_blank" rel="noopener noreferrer" title="Norge med nytt byks på Fifa-rankingen – passerte Danmark">Norge med nye bukser på Fifa-ranglisten - passerede Danmark</a>
+  <div class="meta">TV 2 · 09.07.2026</div>
+</li>
+</ul>
+</section>
+  <section class="category" id="generelle_nyheder">
+  <h2>📰 Generelle nyheder</h2>
+  <ul class="item-list">
+<li class="item">
+  <a href="https://www.klix.ba/sport/nogomet/nogometasi-celika-otputovali-na-pripreme-na-kupres/260719037" target="_blank" rel="noopener noreferrer" title="Nogometaši Čelika otputovali na pripreme na Kupres">Čelika fodboldspillere rejste til Kupres for at forberede sig</a>
+  <div class="meta">19.07.2026</div>
+</li>
+<li class="item">
+  <a href="https://www.klix.ba/vijesti/bih/maric-pola-saobracajnih-kazni-u-hnk-pisemo-strancima-omogucili-smo-im-placanje-i-nakon-odlaska-iz-bih/260719028" target="_blank" rel="noopener noreferrer" title="Marić: Pola saobraćajnih kazni u HNK pišemo strancima, omogućili smo im plaćanje i nakon odlaska iz BiH">Marić: Vi skriver halvdelen af ​​trafikbøderne i HNK til udlændinge, vi satte dem i stand til at betale selv efter at have forladt Bosnien-Hercegovina</a>
+  <div class="meta">19.07.2026</div>
+</li>
+<li class="item">
+  <a href="https://www.klix.ba/lifestyle/modailjepota/savrsen-balans-romanticnog-i-zavodljivog-dzejla-ramovic-u-korzet-haljini-na-nastupu-u-hrvatskoj/260719013" target="_blank" rel="noopener noreferrer" title="Savršen balans romantičnog i zavodljivog: Džejla Ramović u korzet haljini na nastupu u Hrvatskoj">En perfekt balance mellem romantisk og forførende: Džejla Ramović i korsetkjole ved en forestilling i Kroatien</a>
+  <div class="meta">19.07.2026</div>
+</li>
+<li class="item">
+  <a href="https://www.klix.ba/sport/nogomet/historijski-podvig-michael-olise-srusio-rekord-legendarnog-pelea-star-56-godina/260719033" target="_blank" rel="noopener noreferrer" title="Historijski podvig: Michael Olise srušio rekord legendarnog Pelea star 56 godina">Historisk bedrift: Michael Olise slog den legendariske Peles 56-årige rekord</a>
+  <div class="meta">19.07.2026</div>
+</li>
+<li class="item">
+  <a href="https://www.klix.ba/vijesti/svijet/finska-u-vrtlogu-novog-geopolitickog-poretka-iz-helsinkija-za-klixba-o-ulozi-evrope-i-vaznim-porukama-za-bih/260716106" target="_blank" rel="noopener noreferrer" title="Finska u vrtlogu novog geopolitičkog poretka: Iz Helsinkija za Klix.ba o ulozi Evrope i važnim porukama za BiH">Finland i den nye geopolitiske ordens hvirvel: Fra Helsinki til Klix.ba om Europas rolle og vigtige budskaber til Bosnien-Hercegovina</a>
+  <div class="meta">19.07.2026</div>
+</li>
+<li class="item">
+  <a href="https://www.klix.ba/sport/nogomet/infantino-tokom-mundijala-preletio-oko-96500-kilometara-i-proveo-vise-od-100-sati-u-zraku/260719030" target="_blank" rel="noopener noreferrer" title="Infantino tokom Mundijala preletio oko 96.500 kilometara i proveo više od 100 sati u zraku">Under VM fløj Infantino omkring 96.500 kilometer og tilbragte mere end 100 timer i luften.</a>
+  <div class="meta">19.07.2026</div>
+</li>
+<li class="item">
+  <a href="https://www.klix.ba/magazin/showbiz/bivsa-clanica-grupe-spice-girls-melanie-c-udala-se-za-australskog-manekena-victoria-beckham-nije-bila-na-svadbi/260719026" target="_blank" rel="noopener noreferrer" title="Bivša članica grupe Spice Girls Melanie C udala se za australskog manekena, Victoria Beckham nije bila na svadbi">Det tidligere Spice Girls-medlem Melanie C giftede sig med en australsk model, Victoria Beckham var ikke med til brylluppet</a>
+  <div class="meta">19.07.2026</div>
+</li>
+<li class="item">
+  <a href="https://www.klix.ba/scitech/tehnologija/facebook-je-pao-korisnici-u-bih-i-sirom-svijeta-ne-mogu-pristupiti-mrezi-pojavljuje-se-ista-poruka/260719029" target="_blank" rel="noopener noreferrer" title="Facebook je &quot;pao&quot;: Korisnici u BiH i širom svijeta ne mogu pristupiti mreži, pojavljuje se ista poruka">Facebook er &quot;faldet&quot;: Brugere i BiH og rundt omkring i verden kan ikke få adgang til netværket, den samme besked vises</a>
+  <div class="meta">19.07.2026</div>
+</li>
+<li class="item">
+  <a href="https://www.klix.ba/sport/nogomet/rabiot-zestoko-udario-po-saigracima-nakon-bruke-protiv-engleske-ovo-je-neprihvatljivo/260719027" target="_blank" rel="noopener noreferrer" title="Rabiot žestoko udario po saigračima nakon bruke protiv Engleske: Ovo je neprihvatljivo">Rabiot slog hårdt sine holdkammerater efter slagsmålet mod England: Det er uacceptabelt</a>
+  <div class="meta">19.07.2026</div>
+</li>
+<li class="item">
+  <a href="https://www.klix.ba/auto/savjeti/koliko-goriva-trosi-klima-u-automobilu-i-na-kojoj-je-brzini-ventilator-najefikasniji/260718111" target="_blank" rel="noopener noreferrer" title="Koliko goriva troši klima u automobilu i na kojoj je brzini ventilator najefikasniji">Hvor meget brændstof bruger klimaanlægget i bilen, og ved hvilken hastighed er blæseren mest effektiv?</a>
+  <div class="meta">19.07.2026</div>
+</li>
+</ul>
+</section>
+</main>
+<footer>
+  Siden opdateres automatisk flere gange dagligt fra offentlige nyhedskilder.<br>
+  Overskrifter oversættes automatisk til dansk (hold musen over en overskrift for at se originalsproget).<br>
+  Sidst opdateret: 19.07.2026 kl. 09:59 UTC
+</footer>
 </body>
 </html>
