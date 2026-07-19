@@ -100,6 +100,29 @@
     display: grid;
     gap: .85rem;
   }
+  .item {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .thumb {
+    width: 84px;
+    height: 84px;
+    flex-shrink: 0;
+    border-radius: 8px;
+    object-fit: cover;
+    background: var(--bg);
+  }
+  .thumb-empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    border: 1px solid #1b3a8f;
+  }
+  .item-content {
+    min-width: 0;
+  }
   .item a {
     color: var(--accent);
     text-decoration: none;
@@ -138,8 +161,11 @@
   <h2>⚽ Sport</h2>
   <ul class="item-list">
 <li class="item">
-  <a href="https://news.google.com/rss/articles/CBMi0wFBVV95cUxQcjNqQkRtenNPdXFDT3JQMlFsWUR6Z1BPdnVrYUt4RmVYS1RsYlY3VXhTR1hBYmZ5MkFvQ2dJVTU5Y1FIZHF0QWxoNEUzVW5BWXFoeUlOdjRiU0ZSampKdF9sVlZLeElDdTJJcElwRnQxR1pkbWVKb2JmMWRuOWI4dVdhMkFtOXdWR1NtLTNvNnhhZmZrTktRM1FkdjNLWWx0VDc2WlBDejVxSFBXMmdOYWlsWGduakpaalBkSDZHVzZXcG1TM1R5ZExEV0R0LXVsY0JB?oc=5" target="_blank" rel="noopener noreferrer" title="LIVE UPDATES: 10-Man USMNT Defeats Bosnia and Herzegovina to Advance to Round of 16">LIVE-OPDATERINGER: 10-mands USMNT besejrer Bosnien-Hercegovina og går videre til ottendedelsfinalen</a>
-  <div class="meta">US Soccer · 04.07.2026</div>
+  <div class="thumb thumb-empty" aria-hidden="true">🇧🇦</div>
+  <div class="item-content">
+    <a href="https://news.google.com/rss/articles/CBMi0wFBVV95cUxQcjNqQkRtenNPdXFDT3JQMlFsWUR6Z1BPdnVrYUt4RmVYS1RsYlY3VXhTR1hBYmZ5MkFvQ2dJVTU5Y1FIZHF0QWxoNEUzVW5BWXFoeUlOdjRiU0ZSampKdF9sVlZLeElDdTJJcElwRnQxR1pkbWVKb2JmMWRuOWI4dVdhMkFtOXdWR1NtLTNvNnhhZmZrTktRM1FkdjNLWWx0VDc2WlBDejVxSFBXMmdOYWlsWGduakpaalBkSDZHVzZXcG1TM1R5ZExEV0R0LXVsY0JB?oc=5" target="_blank" rel="noopener noreferrer" title="LIVE UPDATES: 10-Man USMNT Defeats Bosnia and Herzegovina to Advance to Round of 16">LIVE-OPDATERINGER: 10-mands USMNT besejrer Bosnien-Hercegovina og går videre til ottendedelsfinalen</a>
+    <div class="meta">US Soccer · 04.07.2026</div>
+  </div>
 </li>
 </ul>
 </section>
@@ -147,32 +173,53 @@
   <h2>🏛️ Politik</h2>
   <ul class="item-list">
 <li class="item">
-  <a href="https://news.google.com/rss/articles/CBMi3wFBVV95cUxNT0FyQmlKTnZSakR5eUF5eTU5eHJiMHU3T3BsQnpINGtNWjZYZUEtUnBpVEc3S2ozU3BaQkNBVTVhN3ZIWVMyQm5NdXFnUG5WbU80ZGJPY29fZm5Pa3VlXzIwRlRreU8ybDRCeWhZelUwZmFLS0ptbUhWYmp4d1BESVhHYmNQNEg1bzRnODhueHlPbXpzNEU0ZDl6bzB5UzF6MExtTEx0RVJGVGg5THdEUU80dGIzcWpkcXppYldaZUdmRFh2OW1kejZ0RjYwMFhMd1huZlJOVm1PbEJLYUpJ?oc=5" target="_blank" rel="noopener noreferrer" title="Women candidates in Bosnia and Herzegovina build confidence and solidarity through Council of Europe Academy">Kvindelige kandidater i Bosnien-Hercegovina opbygger tillid og solidaritet gennem Europarådets Akademi</a>
-  <div class="meta">coe.int · 16.07.2026</div>
+  <div class="thumb thumb-empty" aria-hidden="true">🇧🇦</div>
+  <div class="item-content">
+    <a href="https://news.google.com/rss/articles/CBMi3wFBVV95cUxNT0FyQmlKTnZSakR5eUF5eTU5eHJiMHU3T3BsQnpINGtNWjZYZUEtUnBpVEc3S2ozU3BaQkNBVTVhN3ZIWVMyQm5NdXFnUG5WbU80ZGJPY29fZm5Pa3VlXzIwRlRreU8ybDRCeWhZelUwZmFLS0ptbUhWYmp4d1BESVhHYmNQNEg1bzRnODhueHlPbXpzNEU0ZDl6bzB5UzF6MExtTEx0RVJGVGg5THdEUU80dGIzcWpkcXppYldaZUdmRFh2OW1kejZ0RjYwMFhMd1huZlJOVm1PbEJLYUpJ?oc=5" target="_blank" rel="noopener noreferrer" title="Women candidates in Bosnia and Herzegovina build confidence and solidarity through Council of Europe Academy">Kvindelige kandidater i Bosnien-Hercegovina opbygger tillid og solidaritet gennem Europarådets Akademi</a>
+    <div class="meta">coe.int · 16.07.2026</div>
+  </div>
 </li>
 <li class="item">
-  <a href="https://news.google.com/rss/articles/CBMisgFBVV95cUxNNVFCcDdFV1BlaE5SdlVkVzhjLXFqQ1luNjhCaU1XRXczSGJ0NW12R29nblZKZ2ZBc1hIc1BNZTdaTFhkYW5pRDVDeVpQRzZocG04aWkycHBYcVNtYjEtQlpvTVpfVkpBTGtwaDZkTy1rZDdTSF9IaFVSMlJxTTdwSFoydGk1Ml9lYWVNMHotYTY2TG1pQVlyYXo0QnpQNzMyQjVqYnpxR0JXNmkxbGI4emx3?oc=5" target="_blank" rel="noopener noreferrer" title="Parliament backs resolution on Croats in Bosnia and Herzegovina">Parlamentet støtter beslutningen om kroater i Bosnien-Hercegovina</a>
-  <div class="meta">HRT · 15.07.2026</div>
+  <div class="thumb thumb-empty" aria-hidden="true">🇧🇦</div>
+  <div class="item-content">
+    <a href="https://news.google.com/rss/articles/CBMisgFBVV95cUxNNVFCcDdFV1BlaE5SdlVkVzhjLXFqQ1luNjhCaU1XRXczSGJ0NW12R29nblZKZ2ZBc1hIc1BNZTdaTFhkYW5pRDVDeVpQRzZocG04aWkycHBYcVNtYjEtQlpvTVpfVkpBTGtwaDZkTy1rZDdTSF9IaFVSMlJxTTdwSFoydGk1Ml9lYWVNMHotYTY2TG1pQVlyYXo0QnpQNzMyQjVqYnpxR0JXNmkxbGI4emx3?oc=5" target="_blank" rel="noopener noreferrer" title="Parliament backs resolution on Croats in Bosnia and Herzegovina">Parlamentet støtter beslutningen om kroater i Bosnien-Hercegovina</a>
+    <div class="meta">HRT · 15.07.2026</div>
+  </div>
 </li>
 <li class="item">
-  <a href="https://news.google.com/rss/articles/CBMitAFBVV95cUxPQjRoVmtMRmR3YjlYUzlWUUpDeldJMDBCYzRGNnoxQmoySml6QTdUR0ZvejhpZGZ1emMzbHRsdWJJLW5LWEtacFZIT1hpUTdXb1lXa05zQWZqR2hhZUxTSWtIY2FCQk04QVdWZzdjajQ1RXFJaGlkbFBmT3FSNzZaVUJ0alNTX0hBQ242dW1GS1Y4V2lWaU1SX1lrV3dpNTB2cVFlc3VDa1FyNFg2bGNlSW83QVc?oc=5" target="_blank" rel="noopener noreferrer" title="US–EU Deadlock over High Representative Fuels Serb–Croat Power Play in Bosnia">USA-EU dødvande over den højtstående repræsentant brænder serbisk-kroatisk magtspil i Bosnien</a>
-  <div class="meta">Hungarian Conservative · 14.07.2026</div>
+  <div class="thumb thumb-empty" aria-hidden="true">🇧🇦</div>
+  <div class="item-content">
+    <a href="https://news.google.com/rss/articles/CBMitAFBVV95cUxPQjRoVmtMRmR3YjlYUzlWUUpDeldJMDBCYzRGNnoxQmoySml6QTdUR0ZvejhpZGZ1emMzbHRsdWJJLW5LWEtacFZIT1hpUTdXb1lXa05zQWZqR2hhZUxTSWtIY2FCQk04QVdWZzdjajQ1RXFJaGlkbFBmT3FSNzZaVUJ0alNTX0hBQ242dW1GS1Y4V2lWaU1SX1lrV3dpNTB2cVFlc3VDa1FyNFg2bGNlSW83QVc?oc=5" target="_blank" rel="noopener noreferrer" title="US–EU Deadlock over High Representative Fuels Serb–Croat Power Play in Bosnia">USA-EU dødvande over den højtstående repræsentant brænder serbisk-kroatisk magtspil i Bosnien</a>
+    <div class="meta">Hungarian Conservative · 14.07.2026</div>
+  </div>
 </li>
 <li class="item">
-  <a href="https://news.google.com/rss/articles/CBMiogFBVV95cUxPN3pVZGp4R3RVZlRiNk5zMnE4Y2Mwc0c2RjlsUEJqRUlLNXVZbFdIVk9Ed2daR2Q4eTFrY2Z3NERKUXNsbFlQNHAxYlNDQlVQbVdSVlQxeG9weHBuNV9iWVRDbmV5aXZETUkxbzRHQVJjRGEzUnRranR0UTh5Sy1GQlpwR2VIVDFQa244bmdjeW85bkd3QkR6YmMxWlRSanpuSWc?oc=5" target="_blank" rel="noopener noreferrer" title="MPs agreed on goal to protect Croats in Bosnia, but question resolution&#x27;s impact">Parlamentsmedlemmer var enige om målet om at beskytte kroater i Bosnien, men sætter spørgsmålstegn ved beslutningens indvirkning</a>
-  <div class="meta">| Hrvatski sabor · 14.07.2026</div>
+  <div class="thumb thumb-empty" aria-hidden="true">🇧🇦</div>
+  <div class="item-content">
+    <a href="https://news.google.com/rss/articles/CBMiogFBVV95cUxPN3pVZGp4R3RVZlRiNk5zMnE4Y2Mwc0c2RjlsUEJqRUlLNXVZbFdIVk9Ed2daR2Q4eTFrY2Z3NERKUXNsbFlQNHAxYlNDQlVQbVdSVlQxeG9weHBuNV9iWVRDbmV5aXZETUkxbzRHQVJjRGEzUnRranR0UTh5Sy1GQlpwR2VIVDFQa244bmdjeW85bkd3QkR6YmMxWlRSanpuSWc?oc=5" target="_blank" rel="noopener noreferrer" title="MPs agreed on goal to protect Croats in Bosnia, but question resolution&#x27;s impact">Parlamentsmedlemmer var enige om målet om at beskytte kroater i Bosnien, men sætter spørgsmålstegn ved beslutningens indvirkning</a>
+    <div class="meta">| Hrvatski sabor · 14.07.2026</div>
+  </div>
 </li>
 <li class="item">
-  <a href="https://news.google.com/rss/articles/CBMiwwFBVV95cUxOQnhRQTl5SlVyREp5aDRva2VDNEx5RnBNWng5b0xtRUk3Nm1VeFJTdmgxWmdFN2ljeW9yRXNKcmVfbWk4cmduOEVLRXdORGtsbGUtMWZMR2ZCZFk4UGxtQ0RoaUR3Uk5vOEh2VzF3al83QzFrN09sd0RRS1RuM0stbGRyanROTmRyZVR1Q2gtTGpzUVlGdThQeDhNWl9Ua2N2c3M2ZU9MV0FxdFA2aTE2bVNDRHpRRUdKWk5vZzRzSnlmVUU?oc=5" target="_blank" rel="noopener noreferrer" title="Bosnia and Herzegovina’s EU path: from candidacy status optimism to 113 failed promises">Bosnien-Hercegovinas EU-vej: fra kandidatstatusoptimisme til 113 mislykkede løfter</a>
-  <div class="meta">New Eastern Europe · 09.07.2026</div>
+  <div class="thumb thumb-empty" aria-hidden="true">🇧🇦</div>
+  <div class="item-content">
+    <a href="https://news.google.com/rss/articles/CBMiwwFBVV95cUxOQnhRQTl5SlVyREp5aDRva2VDNEx5RnBNWng5b0xtRUk3Nm1VeFJTdmgxWmdFN2ljeW9yRXNKcmVfbWk4cmduOEVLRXdORGtsbGUtMWZMR2ZCZFk4UGxtQ0RoaUR3Uk5vOEh2VzF3al83QzFrN09sd0RRS1RuM0stbGRyanROTmRyZVR1Q2gtTGpzUVlGdThQeDhNWl9Ua2N2c3M2ZU9MV0FxdFA2aTE2bVNDRHpRRUdKWk5vZzRzSnlmVUU?oc=5" target="_blank" rel="noopener noreferrer" title="Bosnia and Herzegovina’s EU path: from candidacy status optimism to 113 failed promises">Bosnien-Hercegovinas EU-vej: fra kandidatstatusoptimisme til 113 mislykkede løfter</a>
+    <div class="meta">New Eastern Europe · 09.07.2026</div>
+  </div>
 </li>
 <li class="item">
-  <a href="https://news.google.com/rss/articles/CBMi8AFBVV95cUxOaWsyd0R1NFVRbHNHTmlpTGhqZ1JyV19LMnhaUFFhdEF3OGdmRDM2SUtwNTliSXhvaG14djFVNk01djd2dHBKWDR0OVFJNnJja3NSWnE4U0Rxak9rZ2pHR3NkbDhrQ3k1UHhjY1ZGdW5JbDM2RXNZdnltOHFIRFVGOG1URHU2X19tUHcwWkRfLTZWVkFtS0w1U0gzelhFWHR5Q1V1R3hNQ1BnNFVpa0dsRG1mRm5ydTlGakgyZW9TRmRkTDBzSVBTbkgzWUJIbVptYVE2c0ctOWM1UXdsbXR3MU1Ub3VnaEdYYXZTYktDQTc?oc=5" target="_blank" rel="noopener noreferrer" title="Can soccer unite Bosnia beyond politics? | A Debrief With Jasmin Mujanović And Dženeta Karabegović">Kan fodbold forene Bosnien ud over politik? | En debrief med Jasmin Mujanović og Dzeneta Karabegović</a>
-  <div class="meta">Atlantic Council · 08.07.2026</div>
+  <div class="thumb thumb-empty" aria-hidden="true">🇧🇦</div>
+  <div class="item-content">
+    <a href="https://news.google.com/rss/articles/CBMi8AFBVV95cUxOaWsyd0R1NFVRbHNHTmlpTGhqZ1JyV19LMnhaUFFhdEF3OGdmRDM2SUtwNTliSXhvaG14djFVNk01djd2dHBKWDR0OVFJNnJja3NSWnE4U0Rxak9rZ2pHR3NkbDhrQ3k1UHhjY1ZGdW5JbDM2RXNZdnltOHFIRFVGOG1URHU2X19tUHcwWkRfLTZWVkFtS0w1U0gzelhFWHR5Q1V1R3hNQ1BnNFVpa0dsRG1mRm5ydTlGakgyZW9TRmRkTDBzSVBTbkgzWUJIbVptYVE2c0ctOWM1UXdsbXR3MU1Ub3VnaEdYYXZTYktDQTc?oc=5" target="_blank" rel="noopener noreferrer" title="Can soccer unite Bosnia beyond politics? | A Debrief With Jasmin Mujanović And Dženeta Karabegović">Kan fodbold forene Bosnien ud over politik? | En debrief med Jasmin Mujanović og Dzeneta Karabegović</a>
+    <div class="meta">Atlantic Council · 08.07.2026</div>
+  </div>
 </li>
 <li class="item">
-  <a href="https://news.google.com/rss/articles/CBMirgFBVV95cUxOd0ZOY0lvVjcyUVNrNTROVEFsamJvYVdybUNYd1NwVXdsQ1FGeUdGNUNmMmphajBUZWxVakh1RHRwSUhuc3NBYmVfVHRHYlNpdmJWdVEzZ21GRk5MTXFOX3ZscTJmZHRIN29QYXc2TlB2aEhNZF9ycGRKWEN3QUN6MDBoZnpTYnJjVThGaHhvaEJ1SmQ5aFFXcURBWUw0dG15c1JoY0swUHdZcG5tOGc?oc=5" target="_blank" rel="noopener noreferrer" title="Bosnia and Herzegovina’s 2026 Elections Will Test Democratic Delivery">Bosnien-Hercegovinas valg i 2026 vil teste demokratisk levering</a>
-  <div class="meta">Balkan Insight · 06.07.2026</div>
+  <div class="thumb thumb-empty" aria-hidden="true">🇧🇦</div>
+  <div class="item-content">
+    <a href="https://news.google.com/rss/articles/CBMirgFBVV95cUxOd0ZOY0lvVjcyUVNrNTROVEFsamJvYVdybUNYd1NwVXdsQ1FGeUdGNUNmMmphajBUZWxVakh1RHRwSUhuc3NBYmVfVHRHYlNpdmJWdVEzZ21GRk5MTXFOX3ZscTJmZHRIN29QYXc2TlB2aEhNZF9ycGRKWEN3QUN6MDBoZnpTYnJjVThGaHhvaEJ1SmQ5aFFXcURBWUw0dG15c1JoY0swUHdZcG5tOGc?oc=5" target="_blank" rel="noopener noreferrer" title="Bosnia and Herzegovina’s 2026 Elections Will Test Democratic Delivery">Bosnien-Hercegovinas valg i 2026 vil teste demokratisk levering</a>
+    <div class="meta">Balkan Insight · 06.07.2026</div>
+  </div>
 </li>
 </ul>
 </section>
@@ -184,12 +231,18 @@
   <h2>🎭 Folk og kultur</h2>
   <ul class="item-list">
 <li class="item">
-  <a href="https://news.google.com/rss/articles/CBMiZkFVX3lxTE5IODd6R0Jmb0pzTlBMNEJLNHg5Rzl2SExRajE3c1ItclJWUk9neFV3d3puZnAxV3dtc0p6ZmxoZXhkZnQ1dS1IekZMUWRITWVsWWQ1ZUdDZW1vZjlDV2MteWtQY2V3UQ?oc=5" target="_blank" rel="noopener noreferrer" title="Bosnia and Herzegovina">Bosnien-Hercegovina</a>
-  <div class="meta">Encyclopedia Britannica · 06.07.2026</div>
+  <div class="thumb thumb-empty" aria-hidden="true">🇧🇦</div>
+  <div class="item-content">
+    <a href="https://news.google.com/rss/articles/CBMiZkFVX3lxTE5IODd6R0Jmb0pzTlBMNEJLNHg5Rzl2SExRajE3c1ItclJWUk9neFV3d3puZnAxV3dtc0p6ZmxoZXhkZnQ1dS1IekZMUWRITWVsWWQ1ZUdDZW1vZjlDV2MteWtQY2V3UQ?oc=5" target="_blank" rel="noopener noreferrer" title="Bosnia and Herzegovina">Bosnien-Hercegovina</a>
+    <div class="meta">Encyclopedia Britannica · 06.07.2026</div>
+  </div>
 </li>
 <li class="item">
-  <a href="https://news.google.com/rss/articles/CBMib0FVX3lxTE5hUXNjcTBPZUFiMDFOQndSendmb09rX01KVWJrY1c0b2RZYXBkY1Q1QmRfLVVKWUFkVEprb09qcjhpNHJRY0VHc0t2REtHZVZkY0tENVNpaUxrRS0zcG85ZTJYSWFhMjJnTklIMGhsSQ?oc=5" target="_blank" rel="noopener noreferrer" title="Bosnia and Herzegovina - Ethnicities, Religions, Languages">Bosnien-Hercegovina - etniciteter, religioner, sprog</a>
-  <div class="meta">Encyclopedia Britannica · 06.07.2026</div>
+  <div class="thumb thumb-empty" aria-hidden="true">🇧🇦</div>
+  <div class="item-content">
+    <a href="https://news.google.com/rss/articles/CBMib0FVX3lxTE5hUXNjcTBPZUFiMDFOQndSendmb09rX01KVWJrY1c0b2RZYXBkY1Q1QmRfLVVKWUFkVEprb09qcjhpNHJRY0VHc0t2REtHZVZkY0tENVNpaUxrRS0zcG85ZTJYSWFhMjJnTklIMGhsSQ?oc=5" target="_blank" rel="noopener noreferrer" title="Bosnia and Herzegovina - Ethnicities, Religions, Languages">Bosnien-Hercegovina - etniciteter, religioner, sprog</a>
+    <div class="meta">Encyclopedia Britannica · 06.07.2026</div>
+  </div>
 </li>
 </ul>
 </section>
@@ -201,16 +254,25 @@
   <h2>📰 Generelle nyheder</h2>
   <ul class="item-list">
 <li class="item">
-  <a href="https://news.google.com/rss/articles/CBMiW0FVX3lxTE50RzFNY0FEbDNfQWlwcGN0ZklpWTNiMHE1czFDdVNaMER6OUQzNUVDcDVUZklLUUY3RVpXd01Qd3FmRmItdU1lNkMyNkctYV81NDlvOEg3T0dqYlk?oc=5" target="_blank" rel="noopener noreferrer" title="ALMIN - BOSNA I HERCEGOVINA (World Cup 2026 Song) Lsg Vs Csk (bHHVRTXQkT)">ALMIN - BOSNIEN OG HERZEGOVINA (VM 2026-sang) Lsg Vs Csk (bHHVRTXQkT)</a>
-  <div class="meta">Mshale · 19.07.2026</div>
+  <div class="thumb thumb-empty" aria-hidden="true">🇧🇦</div>
+  <div class="item-content">
+    <a href="https://news.google.com/rss/articles/CBMiW0FVX3lxTE50RzFNY0FEbDNfQWlwcGN0ZklpWTNiMHE1czFDdVNaMER6OUQzNUVDcDVUZklLUUY3RVpXd01Qd3FmRmItdU1lNkMyNkctYV81NDlvOEg3T0dqYlk?oc=5" target="_blank" rel="noopener noreferrer" title="ALMIN - BOSNA I HERCEGOVINA (World Cup 2026 Song) Lsg Vs Csk (bHHVRTXQkT)">ALMIN - BOSNIEN OG HERZEGOVINA (VM 2026-sang) Lsg Vs Csk (bHHVRTXQkT)</a>
+    <div class="meta">Mshale · 19.07.2026</div>
+  </div>
 </li>
 <li class="item">
-  <a href="https://news.google.com/rss/articles/CBMiYEFVX3lxTE5YVWplLUF1UVRnVE9EQWhoRk5EQ3lnM3dOZTJidXVGaG9ROWNYdDBpUkEzblpBeTJxUnltQTI1LXVUcFZYQUdMZE92R0pUTWFWNC1PVEdZQ2IwaXhKTmpxeQ?oc=5" target="_blank" rel="noopener noreferrer" title="World Cup 2026 Canada Vs Bosnia And Herzegovina Full Match | Group B | PES 21 Prediction Gerard Butler (1HQ0BtPDkR)">VM 2026 Canada vs Bosnien-Hercegovina Fuld kamp | Gruppe B | PES 21 Forudsigelse Gerard Butler (1HQ0BtPDkR)</a>
-  <div class="meta">Mshale · 17.07.2026</div>
+  <div class="thumb thumb-empty" aria-hidden="true">🇧🇦</div>
+  <div class="item-content">
+    <a href="https://news.google.com/rss/articles/CBMiYEFVX3lxTE5YVWplLUF1UVRnVE9EQWhoRk5EQ3lnM3dOZTJidXVGaG9ROWNYdDBpUkEzblpBeTJxUnltQTI1LXVUcFZYQUdMZE92R0pUTWFWNC1PVEdZQ2IwaXhKTmpxeQ?oc=5" target="_blank" rel="noopener noreferrer" title="World Cup 2026 Canada Vs Bosnia And Herzegovina Full Match | Group B | PES 21 Prediction Gerard Butler (1HQ0BtPDkR)">VM 2026 Canada vs Bosnien-Hercegovina Fuld kamp | Gruppe B | PES 21 Forudsigelse Gerard Butler (1HQ0BtPDkR)</a>
+    <div class="meta">Mshale · 17.07.2026</div>
+  </div>
 </li>
 <li class="item">
-  <a href="https://news.google.com/rss/articles/CBMiYEFVX3lxTE1UU2N1OWluZlZCRGVJeW5MVm5yR3VPcG12a0tFSlh2U2w4QnNBNVpOZXF0MER4SnhEOHEyX0poNnl4NTFjSnFmZTdpZ1c2a1phNHcxTGZqSm1LRVdJVkVTNw?oc=5" target="_blank" rel="noopener noreferrer" title="Vels Bosna 1-1 (2-4) Penalty Shootout Highlights| World Cup Qualifiers | Bosna I Hercegovina - Wales Mondiali 2026 (e1AocQUfUT)">Vels Bosna 1-1 (2-4) Højdepunkter i straffesparkskonkurrence| VM-kvalifikationer | Bosna I Hercegovina - Wales Mondiali 2026 (e1AocQUfUT)</a>
-  <div class="meta">Mshale · 13.07.2026</div>
+  <div class="thumb thumb-empty" aria-hidden="true">🇧🇦</div>
+  <div class="item-content">
+    <a href="https://news.google.com/rss/articles/CBMiYEFVX3lxTE1UU2N1OWluZlZCRGVJeW5MVm5yR3VPcG12a0tFSlh2U2w4QnNBNVpOZXF0MER4SnhEOHEyX0poNnl4NTFjSnFmZTdpZ1c2a1phNHcxTGZqSm1LRVdJVkVTNw?oc=5" target="_blank" rel="noopener noreferrer" title="Vels Bosna 1-1 (2-4) Penalty Shootout Highlights| World Cup Qualifiers | Bosna I Hercegovina - Wales Mondiali 2026 (e1AocQUfUT)">Vels Bosna 1-1 (2-4) Højdepunkter i straffesparkskonkurrence| VM-kvalifikationer | Bosna I Hercegovina - Wales Mondiali 2026 (e1AocQUfUT)</a>
+    <div class="meta">Mshale · 13.07.2026</div>
+  </div>
 </li>
 </ul>
 </section>
@@ -218,7 +280,7 @@
 <footer>
   Siden opdateres automatisk flere gange dagligt fra offentlige nyhedskilder.<br>
   Overskrifter oversættes automatisk til dansk (hold musen over en overskrift for at se originalsproget).<br>
-  Sidst opdateret: 19.07.2026 kl. 10:21 UTC
+  Sidst opdateret: 19.07.2026 kl. 10:34 UTC
 </footer>
 </body>
 </html>
