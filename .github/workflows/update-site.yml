@@ -1,0 +1,38 @@
+name: Opdater grokipedia.dk
+
+on:
+  schedule:
+    # Kører hver 6. time (UTC). Juster gerne til fx "0 6 * * *" for én gang dagligt.
+    - cron: "0 */6 * * *"
+  workflow_dispatch: {}   # gør det muligt at trykke "Run workflow" manuelt
+  push:
+    branches: [ main ]     # bygger også når du selv ændrer noget
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Hent repo
+        uses: actions/checkout@v4
+
+      - name: Sæt Python op
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Installer afhængigheder
+        run: pip install -r requirements.txt
+
+      - name: Hent nyheder og byg siden
+        run: python fetch_news.py
+
+      - name: Commit og push, hvis der er ændringer
+        run: |
+          git config user.name "grokipedia-dk-bot"
+          git config user.email "bot@grokipedia.dk"
+          git add docs/index.html
+          git diff --quiet --cached || git commit -m "Automatisk opdatering af grokipedia.dk"
+          git push
