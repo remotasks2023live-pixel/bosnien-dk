@@ -11,6 +11,8 @@ import feedparser
 import html
 import re
 import time
+import requests
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timezone
 from time import mktime
 from urllib.parse import quote
@@ -114,6 +116,47 @@ def is_relevant(title):
     lowered = title.lower()
     return any(keyword in lowered for keyword in RELEVANCE_KEYWORDS)
 
+
+IMG_TAG_RE = re.compile(
+    r'<meta[^>]+(?:property|name)=["\'](?:og:image|twitter:image)["\'][^>]+content=["\']([^"\']+)["\']',
+    re.IGNORECASE,
+)
+IMG_TAG_RE_REVERSED = re.compile(
+    r'<meta[^>]+content=["\']([^"\']+)["\'][^>]+(?:property|name)=["\'](?:og:image|twitter:image)["\']',
+    re.IGNORECASE,
+)
+
+
+def fetch_article_image(url, timeout=8):
+    """Henter forsidebilledet (og:image) fra selve artikelsiden.
+    Returnerer None hvis der ikke findes et billede, eller siden ikke kan hentes
+    (fx pga. netværksfejl, timeout eller blokering) - siden vises da uden billede."""
+    headers = {"User-Agent": "Mozilla/5.0 (compatible; bosnien-dk-bot/1.0; +https://bosnien.dk)"}
+    try:
+        resp = requests.get(url, headers=headers, timeout=timeout, allow_redirects=True)
+        if resp.status_code != 200:
+            return None
+        chunk = resp.text[:200000]  # kun starten af siden er nødvendig
+        match = IMG_TAG_RE.search(chunk) or IMG_TAG_RE_REVERSED.search(chunk)
+        if match:
+            img = match.group(1).strip()
+            if img.startswith("//"):
+                img = "https:" + img
+            return img
+    except Exception as e:
+        print(f"  Kunne ikke hente billede fra {url}: {e}")
+    return None
+
+
+def attach_images(items, max_workers=8):
+    """Henter billeder til en liste af artikler parallelt, for at gøre det hurtigere."""
+    with ThreadPoolExecutor(max_workers=max_workers) as executor:
+        future_map = {executor.submit(fetch_article_image, it["link"]): it for it in items}
+        for future in as_completed(future_map):
+            it = future_map[future]
+            it["image"] = future.result()
+    return items
+
 # ---------------------------------------------------------------------------
 # 2) HENT OG PARSE
 # ---------------------------------------------------------------------------
@@ -163,7 +206,9 @@ def fetch_category(feeds):
                 "source": source,
             })
     items.sort(key=lambda x: x["date"] or datetime.min.replace(tzinfo=timezone.utc), reverse=True)
-    return items[:MAX_ITEMS_PER_CATEGORY]
+    items = items[:MAX_ITEMS_PER_CATEGORY]
+    attach_images(items)
+    return items
 
 
 # ---------------------------------------------------------------------------
@@ -182,8 +227,11 @@ def render_category(key, cat, items):
     else:
         cards = "\n".join(
             f'''<li class="item">
-  <a href="{html.escape(it["link"])}" target="_blank" rel="noopener noreferrer" title="{html.escape(it.get("original_title") or "")}">{html.escape(it["title"])}</a>
-  <div class="meta">{html.escape(it["source"]) if it["source"] else ""}{" · " if it["source"] else ""}{format_date(it["date"])}</div>
+  {'<img class="thumb" src="' + html.escape(it["image"]) + '" alt="" loading="lazy">' if it.get("image") else '<div class="thumb thumb-empty" aria-hidden="true">🇧🇦</div>'}
+  <div class="item-content">
+    <a href="{html.escape(it["link"])}" target="_blank" rel="noopener noreferrer" title="{html.escape(it.get("original_title") or "")}">{html.escape(it["title"])}</a>
+    <div class="meta">{html.escape(it["source"]) if it["source"] else ""}{" · " if it["source"] else ""}{format_date(it["date"])}</div>
+  </div>
 </li>'''
             for it in items
         )
@@ -295,6 +343,29 @@ PAGE_TEMPLATE = """<!DOCTYPE html>
     padding: 0;
     display: grid;
     gap: .85rem;
+  }}
+  .item {{
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }}
+  .thumb {{
+    width: 84px;
+    height: 84px;
+    flex-shrink: 0;
+    border-radius: 8px;
+    object-fit: cover;
+    background: var(--bg);
+  }}
+  .thumb-empty {{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    border: 1px solid #1b3a8f;
+  }}
+  .item-content {{
+    min-width: 0;
   }}
   .item a {{
     color: var(--accent);
