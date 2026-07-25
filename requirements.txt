@@ -4,3 +4,4 @@ lxml==5.3.0
 html2text==2024.2.26
 playwright==1.44.0
 html2text==2024.2.26
+deep-translator==1.11.4
