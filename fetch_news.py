@@ -91,7 +91,8 @@ def parse_sections(md_text):
     for raw_line in md_text.split("\n"):
         line = raw_line.strip()
 
-        if any(s in line.lower() for s in STOP_WORDS):
+        # Stop KUN ved h2-overskrifter der matcher stopord — ikke TOC-bullet-linjer
+        if line.startswith("## ") and any(s in line.lower() for s in STOP_WORDS):
             in_stop = True
         if in_stop:
             continue
@@ -116,11 +117,12 @@ def parse_sections(md_text):
             cur_sub = line[4:].strip()
             continue
 
+        # Spring navigation, TOC-bullets og tomme linjer over
         if not line or line.startswith("#"):
             continue
         if re.match(r"^\*\*.*\*\*$", line):
             continue
-        if line.startswith("* [") or line.startswith("- ["):
+        if line.startswith("* ") or line.startswith("- "):
             continue
 
         if cur_section and cur_sub and len(line) > 15:
