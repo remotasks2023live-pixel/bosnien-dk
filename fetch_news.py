@@ -6,10 +6,9 @@ Henter Portal:Current Events fra Grokipedia og genererer index.html
 
 import re
 import sys
-import json
 import requests
+import html2text
 from datetime import datetime, timezone
-from bs4 import BeautifulSoup
 
 URL = "https://grokipedia.com/page/PortalCurrent_events"
 
@@ -21,11 +20,6 @@ HEADERS = {
     ),
     "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
     "Accept-Language": "da,en-US;q=0.9,en;q=0.8",
-}
-
-STOP_SECTIONS = {
-    "References", "Table of Contents", "Sign in to contribute",
-    "Suggest an article", "Something went wrong", "Thank you"
 }
 
 CATEGORIES = [
@@ -41,6 +35,10 @@ CATEGORIES = [
     ("Law",         "⚖️",  "#be123c", "Lov & Orden"),
 ]
 
+STOP_WORDS = ["references", "table of contents", "sign in to contribute",
+              "suggest an article", "something went wrong", "thank you"]
+
+
 def get_cat_info(title):
     for key, icon, color, label in CATEGORIES:
         if key.lower() in title.lower():
@@ -48,71 +46,88 @@ def get_cat_info(title):
     return "📌", "#6b7280", title
 
 
-def fetch_page():
+def fetch_as_markdown():
+    """Fetch the page and convert HTML → markdown using html2text (same method as web_fetch tools)."""
     resp = requests.get(URL, headers=HEADERS, timeout=30)
     resp.raise_for_status()
-    return resp.text
+    print(f"HTTP {resp.status_code} — {len(resp.text)} bytes modtaget")
+
+    h = html2text.HTML2Text()
+    h.ignore_links = True
+    h.ignore_images = True
+    h.ignore_tables = False
+    h.body_width = 0        # ingen linjebrydsning
+    h.unicode_snob = True
+
+    return h.handle(resp.text)
 
 
-def parse_sections(html):
-    soup = BeautifulSoup(html, "lxml")
-
-    # Remove nav, footer, script, style noise
-    for tag in soup(["script", "style", "nav", "footer", "button", "form"]):
-        tag.decompose()
-
-    # Find article body — try common containers first
-    body = (
-        soup.find("article")
-        or soup.find("main")
-        or soup.find("div", id=re.compile(r"content|article|body", re.I))
-        or soup.body
-    )
-
+def parse_sections(md_text):
+    """Parse markdown-formatted text into section/subsection dicts."""
     sections = []
     cur_section = None
     cur_sub = None
-    cur_texts = []
+    buf = []
+    in_stop = False
 
-    def flush_sub():
-        nonlocal cur_texts
-        if cur_sub and cur_texts:
-            combined = " ".join(cur_texts).strip()
-            combined = re.sub(r"\[\d+\]", "", combined)   # strip [1],[2]...
-            combined = re.sub(r"\s{2,}", " ", combined)
-            if len(combined) > 30:
-                cur_section["subsections"].append({"title": cur_sub, "text": combined})
-        cur_texts = []
+    def flush():
+        nonlocal buf
+        text = " ".join(buf).strip()
+        text = re.sub(r"\[\d+\]", "", text)     # fjern [1],[2]...
+        text = re.sub(r"\s{2,}", " ", text)
+        buf = []
+        return text if len(text) > 30 else ""
 
-    for tag in body.find_all(["h2", "h3", "p"]):
-        text = tag.get_text(" ", strip=True)
-        text = re.sub(r"\s+", " ", text).strip()
-        if not text:
+    for raw_line in md_text.split("\n"):
+        line = raw_line.strip()
+
+        # Stop ved references/nav-sektioner
+        if any(s in line.lower() for s in STOP_WORDS):
+            in_stop = True
+        if in_stop:
             continue
 
-        if tag.name == "h2":
-            if any(s.lower() in text.lower() for s in STOP_SECTIONS):
-                break
+        # Niveau-2 overskrift  →  ny sektion
+        if line.startswith("## "):
+            title = line[3:].strip()
             if cur_section:
-                flush_sub()
+                text = flush()
+                if text and cur_sub:
+                    cur_section["subsections"].append({"title": cur_sub, "text": text})
                 if cur_section["subsections"]:
                     sections.append(cur_section)
-            cur_section = {"title": text, "subsections": []}
+            cur_section = {"title": title, "subsections": []}
             cur_sub = None
-            cur_texts = []
+            buf = []
+            continue
 
-        elif tag.name == "h3" and cur_section:
-            flush_sub()
-            cur_sub = text
+        # Niveau-3 overskrift  →  ny undersektion
+        if line.startswith("### ") and cur_section:
+            text = flush()
+            if text and cur_sub:
+                cur_section["subsections"].append({"title": cur_sub, "text": text})
+            cur_sub = line[4:].strip()
+            continue
 
-        elif tag.name == "p" and cur_section and cur_sub:
-            clean = re.sub(r"\[\d+\]", "", text)
-            clean = clean.strip()
-            if len(clean) > 20:
-                cur_texts.append(clean)
+        # Spring navigation/meta-linjer over
+        if not line:
+            continue
+        if line.startswith("#"):          # h1 eller dybere headers uden indhold
+            continue
+        if re.match(r"^\*\*.*\*\*$", line):  # bold-only linjer = UI-labels
+            continue
+        if line.startswith("* [") or line.startswith("- ["):
+            continue
 
+        # Tilføj til buffer hvis vi er inde i en undersektion
+        if cur_section and cur_sub and len(line) > 15:
+            buf.append(line)
+
+    # Gem sidst
     if cur_section:
-        flush_sub()
+        text = flush()
+        if text and cur_sub:
+            cur_section["subsections"].append({"title": cur_sub, "text": text})
         if cur_section["subsections"]:
             sections.append(cur_section)
 
@@ -127,8 +142,8 @@ def truncate(text, max_len=350):
 
 def build_html(sections, updated_at):
     total_arts = sum(len(s["subsections"]) for s in sections)
+    updated_str = updated_at.strftime("%-d. %B %Y kl. %H:%M UTC")
 
-    # Category pills
     pills_html = ""
     for s in sections:
         icon, color, label = get_cat_info(s["title"])
@@ -139,7 +154,6 @@ def build_html(sections, updated_at):
             f'{icon} {label}</span>'
         )
 
-    # Section cards
     cards_html = ""
     for s in sections:
         icon, color, label = get_cat_info(s["title"])
@@ -147,16 +161,16 @@ def build_html(sections, updated_at):
         arts_html = ""
         for sub in s["subsections"]:
             short = truncate(sub["text"])
-            full_escaped = sub["text"].replace("'", "&#39;").replace('"', "&quot;")
-            is_truncated = short != sub["text"]
+            full_esc = sub["text"].replace("'", "&#39;").replace('"', "&quot;")
+            show_more = short != sub["text"]
             arts_html += f"""
             <div class="article-item">
               <div class="article-sub">
                 <span class="dot" style="background:{color}"></span>
                 {sub['title']}
               </div>
-              <p class="article-text" id="txt-{id(sub)}">{short}</p>
-              {'<span class="readmore" onclick="toggleRead(this,\'' + full_escaped + '\')">Læs mere</span>' if is_truncated else ''}
+              <p class="article-text">{short}</p>
+              {'<span class="readmore" onclick="toggleRead(this,\'' + full_esc + '\')">Læs mere</span>' if show_more else ''}
             </div>"""
 
         cards_html += f"""
@@ -170,8 +184,6 @@ def build_html(sections, updated_at):
           <div class="section-body">{arts_html}</div>
         </div>"""
 
-    updated_str = updated_at.strftime("%-d. %B %Y kl. %H:%M UTC")
-
     return f"""<!DOCTYPE html>
 <html lang="da">
 <head>
@@ -180,12 +192,12 @@ def build_html(sections, updated_at):
 <meta http-equiv="refresh" content="10800">
 <title>Grokipedia Nyheder</title>
 <style>
-:root {{color-scheme:light;--bg:#f4f6f9;--surface:#fff;--surface2:#f0f2f5;--border:#e2e6ea;--text:#1a1d23;--text2:#4b5563;--text3:#9ca3af;--accent:#1e40af;--r:10px;}}
+:root{{color-scheme:light;--bg:#f4f6f9;--surface:#fff;--surface2:#f0f2f5;--border:#e2e6ea;--text:#1a1d23;--text2:#4b5563;--text3:#9ca3af;--r:10px;}}
 *{{box-sizing:border-box;margin:0;padding:0;}}
 body{{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;font-size:14px;line-height:1.6;}}
 header{{background:#fff;border-bottom:1px solid var(--border);padding:12px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;position:sticky;top:0;z-index:100;}}
 .logo{{display:flex;align-items:center;gap:8px;font-weight:700;font-size:16px;}}
-.logo-badge{{background:#1e40af;color:#fff;font-size:10px;font-weight:700;padding:2px 6px;border-radius:4px;text-transform:uppercase;letter-spacing:.5px;}}
+.logo-badge{{background:#1e40af;color:#fff;font-size:10px;font-weight:700;padding:2px 6px;border-radius:4px;text-transform:uppercase;}}
 .meta{{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}}
 .chip{{background:var(--surface2);border:1px solid var(--border);border-radius:20px;padding:4px 12px;font-size:12px;color:var(--text2);}}
 .source-link{{font-size:12px;color:#1e40af;text-decoration:none;}}
@@ -204,7 +216,7 @@ main{{max-width:960px;margin:0 auto;padding:20px 16px 40px;}}
 .sec-count{{background:var(--surface2);color:var(--text2);font-size:11px;font-weight:600;padding:2px 7px;border-radius:10px;}}
 .toggle-arrow{{color:var(--text3);font-size:12px;transition:transform .2s;}}
 .section-body{{padding:4px 0;}}
-.article-item{{padding:10px 16px;border-bottom:1px solid var(--border);transition:background .1s;}}
+.article-item{{padding:10px 16px;border-bottom:1px solid var(--border);}}
 .article-item:last-child{{border-bottom:none;}}
 .article-item:hover{{background:var(--surface2);}}
 .article-sub{{font-weight:600;font-size:13px;margin-bottom:4px;display:flex;align-items:center;gap:6px;}}
@@ -212,58 +224,41 @@ main{{max-width:960px;margin:0 auto;padding:20px 16px 40px;}}
 .article-text{{font-size:12.5px;color:var(--text2);line-height:1.55;}}
 .readmore{{font-size:11px;color:#1e40af;cursor:pointer;margin-top:3px;display:inline-block;}}
 .readmore:hover{{text-decoration:underline;}}
-footer{{text-align:center;color:var(--text3);font-size:11px;padding:24px;border-top:1px solid var(--border);}}
+footer{{text-align:center;color:var(--text3);font-size:11px;padding:24px;border-top:1px solid var(--border);margin-top:20px;}}
 footer a{{color:#1e40af;text-decoration:none;}}
-footer a:hover{{text-decoration:underline;}}
 </style>
 </head>
 <body>
 <header>
-  <div class="logo">
-    🌐 Grokipedia Nyheder
-    <span class="logo-badge">Auto</span>
-  </div>
+  <div class="logo">🌐 Grokipedia Nyheder <span class="logo-badge">Auto</span></div>
   <div class="meta">
-    <span class="chip">🕒 Opdateret: {updated_str}</span>
-    <span class="chip">📰 {total_arts} historier i {len(sections)} kategorier</span>
+    <span class="chip">🕒 {updated_str}</span>
+    <span class="chip">📰 {total_arts} historier · {len(sections)} kategorier</span>
     <a class="source-link" href="{URL}" target="_blank">↗ Kilde</a>
   </div>
 </header>
-
 <main>
   <div class="summary-bar">
-    <span>Hop til kategori:</span>
+    <span>Hop til:</span>
     <div class="cat-pills">{pills_html}</div>
   </div>
   <div id="news">{cards_html}</div>
 </main>
-
 <footer>
   Data fra <a href="{URL}" target="_blank">Grokipedia Portal: Current Events</a>
-  &nbsp;·&nbsp; Siden opdateres automatisk via GitHub Actions hver 3. time
+  &nbsp;·&nbsp; Opdateres automatisk via GitHub Actions hver 3. time
   &nbsp;·&nbsp; Sidst hentet: {updated_str}
 </footer>
-
 <script>
-function toggleCard(hdr) {{
-  const body = hdr.nextElementSibling;
-  const arr = hdr.querySelector('.toggle-arrow');
-  const open = body.style.display !== 'none';
-  body.style.display = open ? 'none' : 'block';
-  arr.style.transform = open ? 'rotate(-90deg)' : '';
+function toggleCard(hdr){{
+  var body=hdr.nextElementSibling,arr=hdr.querySelector('.toggle-arrow'),open=body.style.display!=='none';
+  body.style.display=open?'none':'block';
+  arr.style.transform=open?'rotate(-90deg)':'';
 }}
-function toggleRead(el, full) {{
-  const p = el.previousElementSibling;
-  if (el.dataset.expanded) {{
-    p.textContent = p.dataset.short;
-    el.textContent = 'Læs mere';
-    delete el.dataset.expanded;
-  }} else {{
-    p.dataset.short = p.textContent;
-    p.textContent = full;
-    el.textContent = 'Vis mindre';
-    el.dataset.expanded = '1';
-  }}
+function toggleRead(el,full){{
+  var p=el.previousElementSibling;
+  if(el.dataset.exp){{p.textContent=p.dataset.s;el.textContent='Læs mere';delete el.dataset.exp;}}
+  else{{p.dataset.s=p.textContent;p.textContent=full;el.textContent='Vis mindre';el.dataset.exp=1;}}
 }}
 </script>
 </body>
@@ -273,27 +268,34 @@ function toggleRead(el, full) {{
 def main():
     print("Henter data fra Grokipedia...")
     try:
-        html = fetch_page()
+        md_text = fetch_as_markdown()
     except Exception as e:
         print(f"FEJL ved hentning: {e}", file=sys.stderr)
         sys.exit(1)
 
-    print("Parser indhold...")
-    sections = parse_sections(html)
+    print("Første 500 tegn af konverteret tekst:")
+    print(md_text[:500])
+    print("---")
+
+    print("Parser sektioner...")
+    sections = parse_sections(md_text)
 
     if not sections:
-        print("ADVARSEL: Ingen sektioner fundet — tjek HTML-strukturen på Grokipedia", file=sys.stderr)
+        print("FEJL: Ingen sektioner fundet. Udskriver rå tekst til fejlsøgning:")
+        print(md_text[:2000])
         sys.exit(1)
 
-    print(f"Fandt {len(sections)} kategorier med {sum(len(s['subsections']) for s in sections)} historier.")
+    total = sum(len(s["subsections"]) for s in sections)
+    print(f"Fandt {len(sections)} kategorier med {total} historier.")
+    for s in sections:
+        print(f"  - {s['title']}: {len(s['subsections'])} artikler")
 
     updated_at = datetime.now(timezone.utc)
     output = build_html(sections, updated_at)
 
     with open("index.html", "w", encoding="utf-8") as f:
         f.write(output)
-
-    print("index.html genereret.")
+    print("index.html genereret og gemt.")
 
 
 if __name__ == "__main__":
