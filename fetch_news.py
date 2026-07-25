@@ -197,6 +197,9 @@ def build_html(sections, updated_at):
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="refresh" content="10800">
 <title>Grokipedia Nyheder</title>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5118726399939247"
+     crossorigin="anonymous"></script>
+<style>
 <style>
 :root{{color-scheme:light;--bg:#f4f6f9;--surface:#fff;--surface2:#f0f2f5;--border:#e2e6ea;--text:#1a1d23;--text2:#4b5563;--text3:#9ca3af;--r:10px;}}
 *{{box-sizing:border-box;margin:0;padding:0;}}
