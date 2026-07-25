@@ -1,4 +1,4 @@
-ame: Opdater Grokipedia Nyheder
+name: Opdater Grokipedia Nyheder
 
 on:
   schedule:
