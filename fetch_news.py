@@ -1,26 +1,16 @@
 #!/usr/bin/env python3
 """
-Grokipedia News Fetcher
-Henter Portal:Current Events fra Grokipedia og genererer index.html
+Grokipedia News Fetcher — Playwright version
+Bruger headless Chromium til at hente JavaScript-rendered indhold fra Grokipedia.
 """
 
 import re
 import sys
-import requests
 import html2text
 from datetime import datetime, timezone
+from playwright.sync_api import sync_playwright
 
 URL = "https://grokipedia.com/page/PortalCurrent_events"
-
-HEADERS = {
-    "User-Agent": (
-        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-        "AppleWebKit/537.36 (KHTML, like Gecko) "
-        "Chrome/124.0.0.0 Safari/537.36"
-    ),
-    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-    "Accept-Language": "da,en-US;q=0.9,en;q=0.8",
-}
 
 CATEGORIES = [
     ("Armed",       "⚔️",  "#dc2626", "Konflikter"),
@@ -35,8 +25,10 @@ CATEGORIES = [
     ("Law",         "⚖️",  "#be123c", "Lov & Orden"),
 ]
 
-STOP_WORDS = ["references", "table of contents", "sign in to contribute",
-              "suggest an article", "something went wrong", "thank you"]
+STOP_WORDS = [
+    "references", "table of contents", "sign in to contribute",
+    "suggest an article", "something went wrong", "thank you",
+]
 
 
 def get_cat_info(title):
@@ -46,24 +38,42 @@ def get_cat_info(title):
     return "📌", "#6b7280", title
 
 
-def fetch_as_markdown():
-    """Fetch the page and convert HTML → markdown using html2text (same method as web_fetch tools)."""
-    resp = requests.get(URL, headers=HEADERS, timeout=30)
-    resp.raise_for_status()
-    print(f"HTTP {resp.status_code} — {len(resp.text)} bytes modtaget")
+def fetch_html():
+    """Henter siden med Playwright (kører JavaScript fuldt ud)."""
+    with sync_playwright() as p:
+        browser = p.chromium.launch(headless=True)
+        page = browser.new_page(
+            user_agent=(
+                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                "AppleWebKit/537.36 (KHTML, like Gecko) "
+                "Chrome/124.0.0.0 Safari/537.36"
+            )
+        )
+        print(f"Åbner {URL} ...")
+        page.goto(URL, wait_until="networkidle", timeout=60000)
 
+        # Vent på at overskrifter er indlæst
+        try:
+            page.wait_for_selector("h2", timeout=15000)
+        except Exception:
+            print("Advarsel: Timeout ved h2-selektor — fortsætter alligevel")
+
+        html = page.content()
+        browser.close()
+        print(f"Hentet {len(html)} bytes HTML")
+        return html
+
+
+def html_to_markdown(html):
     h = html2text.HTML2Text()
     h.ignore_links = True
     h.ignore_images = True
-    h.ignore_tables = False
-    h.body_width = 0        # ingen linjebrydsning
+    h.body_width = 0
     h.unicode_snob = True
-
-    return h.handle(resp.text)
+    return h.handle(html)
 
 
 def parse_sections(md_text):
-    """Parse markdown-formatted text into section/subsection dicts."""
     sections = []
     cur_section = None
     cur_sub = None
@@ -73,7 +83,7 @@ def parse_sections(md_text):
     def flush():
         nonlocal buf
         text = " ".join(buf).strip()
-        text = re.sub(r"\[\d+\]", "", text)     # fjern [1],[2]...
+        text = re.sub(r"\[\d+\]", "", text)
         text = re.sub(r"\s{2,}", " ", text)
         buf = []
         return text if len(text) > 30 else ""
@@ -81,13 +91,11 @@ def parse_sections(md_text):
     for raw_line in md_text.split("\n"):
         line = raw_line.strip()
 
-        # Stop ved references/nav-sektioner
         if any(s in line.lower() for s in STOP_WORDS):
             in_stop = True
         if in_stop:
             continue
 
-        # Niveau-2 overskrift  →  ny sektion
         if line.startswith("## "):
             title = line[3:].strip()
             if cur_section:
@@ -101,7 +109,6 @@ def parse_sections(md_text):
             buf = []
             continue
 
-        # Niveau-3 overskrift  →  ny undersektion
         if line.startswith("### ") and cur_section:
             text = flush()
             if text and cur_sub:
@@ -109,21 +116,16 @@ def parse_sections(md_text):
             cur_sub = line[4:].strip()
             continue
 
-        # Spring navigation/meta-linjer over
-        if not line:
+        if not line or line.startswith("#"):
             continue
-        if line.startswith("#"):          # h1 eller dybere headers uden indhold
-            continue
-        if re.match(r"^\*\*.*\*\*$", line):  # bold-only linjer = UI-labels
+        if re.match(r"^\*\*.*\*\*$", line):
             continue
         if line.startswith("* [") or line.startswith("- ["):
             continue
 
-        # Tilføj til buffer hvis vi er inde i en undersektion
         if cur_section and cur_sub and len(line) > 15:
             buf.append(line)
 
-    # Gem sidst
     if cur_section:
         text = flush()
         if text and cur_sub:
@@ -246,56 +248,51 @@ footer a{{color:#1e40af;text-decoration:none;}}
 </main>
 <footer>
   Data fra <a href="{URL}" target="_blank">Grokipedia Portal: Current Events</a>
-  &nbsp;·&nbsp; Opdateres automatisk via GitHub Actions hver 3. time
-  &nbsp;·&nbsp; Sidst hentet: {updated_str}
+  &nbsp;·&nbsp; Opdateres automatisk via GitHub Actions hver 3. time &nbsp;·&nbsp; {updated_str}
 </footer>
 <script>
-function toggleCard(hdr){{
-  var body=hdr.nextElementSibling,arr=hdr.querySelector('.toggle-arrow'),open=body.style.display!=='none';
-  body.style.display=open?'none':'block';
-  arr.style.transform=open?'rotate(-90deg)':'';
-}}
-function toggleRead(el,full){{
-  var p=el.previousElementSibling;
-  if(el.dataset.exp){{p.textContent=p.dataset.s;el.textContent='Læs mere';delete el.dataset.exp;}}
-  else{{p.dataset.s=p.textContent;p.textContent=full;el.textContent='Vis mindre';el.dataset.exp=1;}}
-}}
+function toggleCard(hdr){{var b=hdr.nextElementSibling,a=hdr.querySelector('.toggle-arrow'),o=b.style.display!=='none';b.style.display=o?'none':'block';a.style.transform=o?'rotate(-90deg)':'';}}
+function toggleRead(el,full){{var p=el.previousElementSibling;if(el.dataset.exp){{p.textContent=p.dataset.s;el.textContent='Læs mere';delete el.dataset.exp;}}else{{p.dataset.s=p.textContent;p.textContent=full;el.textContent='Vis mindre';el.dataset.exp=1;}}}}
 </script>
 </body>
 </html>"""
 
 
 def main():
-    print("Henter data fra Grokipedia...")
+    print("Starter Playwright og henter Grokipedia...")
     try:
-        md_text = fetch_as_markdown()
+        html = fetch_html()
     except Exception as e:
         print(f"FEJL ved hentning: {e}", file=sys.stderr)
         sys.exit(1)
 
-    print("Første 500 tegn af konverteret tekst:")
-    print(md_text[:500])
+    print("Konverterer HTML → markdown...")
+    md_text = html_to_markdown(html)
+
+    # Debug: vis første 800 tegn
+    print("--- Første 800 tegn ---")
+    print(md_text[:800])
     print("---")
 
     print("Parser sektioner...")
     sections = parse_sections(md_text)
 
     if not sections:
-        print("FEJL: Ingen sektioner fundet. Udskriver rå tekst til fejlsøgning:")
-        print(md_text[:2000])
+        print("FEJL: Ingen sektioner fundet. Udskriver 3000 tegn til fejlsøgning:")
+        print(md_text[:3000])
         sys.exit(1)
 
     total = sum(len(s["subsections"]) for s in sections)
-    print(f"Fandt {len(sections)} kategorier med {total} historier.")
+    print(f"Fandt {len(sections)} kategorier med {total} historier:")
     for s in sections:
-        print(f"  - {s['title']}: {len(s['subsections'])} artikler")
+        print(f"  · {s['title']}: {len(s['subsections'])} artikler")
 
     updated_at = datetime.now(timezone.utc)
     output = build_html(sections, updated_at)
 
     with open("index.html", "w", encoding="utf-8") as f:
         f.write(output)
-    print("index.html genereret og gemt.")
+    print("✓ index.html genereret og gemt.")
 
 
 if __name__ == "__main__":
