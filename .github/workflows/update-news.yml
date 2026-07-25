@@ -23,8 +23,11 @@ jobs:
           python-version: "3.12"
           cache: "pip"
 
-      - name: Installer afhængigheder
+      - name: Installer Python-pakker
         run: pip install -r requirements.txt
+
+      - name: Installer Playwright browser
+        run: playwright install chromium --with-deps
 
       - name: Hent nyheder og generer index.html
         run: python fetch_news.py
