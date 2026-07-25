@@ -13,18 +13,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4.2.2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Sæt Python op
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v5.3.0
         with:
           python-version: "3.12"
           cache: "pip"
 
       - name: Installer Python-pakker
         run: pip install -r requirements.txt
+
+      - name: Fix Ubuntu 24.04 libasound2 dependency
+        run: sudo apt-get install -y libasound2t64
 
       - name: Installer Playwright browser
         run: playwright install chromium --with-deps
