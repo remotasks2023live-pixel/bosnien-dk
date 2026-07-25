@@ -3,22 +3,276 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="refresh" content="10800">
 <title>Grokipedia Nyheder</title>
 <style>
-  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f4f6f9; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; }
-  .box { background: #fff; border-radius: 12px; padding: 40px; text-align: center; box-shadow: 0 2px 12px rgba(0,0,0,.08); max-width: 400px; }
-  h1 { font-size: 20px; margin-bottom: 10px; }
-  p { color: #6b7280; font-size: 14px; }
-  .spin { font-size: 28px; animation: spin 1s linear infinite; display: inline-block; margin-bottom: 16px; }
-  @keyframes spin { to { transform: rotate(360deg); } }
+:root{color-scheme:light;--bg:#f4f6f9;--surface:#fff;--surface2:#f0f2f5;--border:#e2e6ea;--text:#1a1d23;--text2:#4b5563;--text3:#9ca3af;--r:10px;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;font-size:14px;line-height:1.6;}
+header{background:#fff;border-bottom:1px solid var(--border);padding:12px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;position:sticky;top:0;z-index:100;}
+.logo{display:flex;align-items:center;gap:8px;font-weight:700;font-size:16px;}
+.logo-badge{background:#1e40af;color:#fff;font-size:10px;font-weight:700;padding:2px 6px;border-radius:4px;text-transform:uppercase;}
+.meta{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.chip{background:var(--surface2);border:1px solid var(--border);border-radius:20px;padding:4px 12px;font-size:12px;color:var(--text2);}
+.source-link{font-size:12px;color:#1e40af;text-decoration:none;}
+.source-link:hover{text-decoration:underline;}
+main{max-width:960px;margin:0 auto;padding:20px 16px 40px;}
+.summary-bar{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:10px 16px;margin-bottom:20px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:13px;color:var(--text2);}
+.cat-pills{display:flex;gap:6px;flex-wrap:wrap;}
+.cat-pill{padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;color:#fff;cursor:pointer;transition:opacity .15s;}
+.cat-pill:hover{opacity:.8;}
+#news{display:flex;flex-direction:column;gap:20px;}
+.section-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.07);}
+.section-header{display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--border);cursor:pointer;user-select:none;}
+.section-header:hover{background:var(--surface2);}
+.sec-icon{font-size:18px;flex-shrink:0;}
+.sec-title{font-weight:700;font-size:14px;flex:1;}
+.sec-count{background:var(--surface2);color:var(--text2);font-size:11px;font-weight:600;padding:2px 7px;border-radius:10px;}
+.toggle-arrow{color:var(--text3);font-size:12px;transition:transform .2s;}
+.section-body{padding:4px 0;}
+.article-item{padding:10px 16px;border-bottom:1px solid var(--border);}
+.article-item:last-child{border-bottom:none;}
+.article-item:hover{background:var(--surface2);}
+.article-sub{font-weight:600;font-size:13px;margin-bottom:4px;display:flex;align-items:center;gap:6px;}
+.dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
+.article-text{font-size:12.5px;color:var(--text2);line-height:1.55;}
+.readmore{font-size:11px;color:#1e40af;cursor:pointer;margin-top:3px;display:inline-block;}
+.readmore:hover{text-decoration:underline;}
+footer{text-align:center;color:var(--text3);font-size:11px;padding:24px;border-top:1px solid var(--border);margin-top:20px;}
+footer a{color:#1e40af;text-decoration:none;}
 </style>
 </head>
 <body>
-  <div class="box">
-    <div class="spin">🌐</div>
-    <h1>Grokipedia Nyheder</h1>
-    <p>GitHub Actions er ved at hente de første nyheder.<br>
-    Siden er klar inden for få minutter.</p>
+<header>
+  <div class="logo">🌐 Grokipedia Nyheder <span class="logo-badge">Auto</span></div>
+  <div class="meta">
+    <span class="chip">🕒 25. July 2026 kl. 15:40 UTC</span>
+    <span class="chip">📰 17 historier · 8 kategorier</span>
+    <a class="source-link" href="https://grokipedia.com/page/PortalCurrent_events" target="_blank">↗ Kilde</a>
   </div>
+</header>
+<main>
+  <div class="summary-bar">
+    <span>Hop til:</span>
+    <div class="cat-pills"><span class="cat-pill" style="background:#dc2626" onclick="document.getElementById('sec-Armed-Conflicts-and-International-Relations').scrollIntoView({behavior:'smooth'})">⚔️ Konflikter</span><span class="cat-pill" style="background:#7c3aed" onclick="document.getElementById('sec-Politics-and-Governance').scrollIntoView({behavior:'smooth'})">🏛️ Politik</span><span class="cat-pill" style="background:#059669" onclick="document.getElementById('sec-Economy-and-Business').scrollIntoView({behavior:'smooth'})">📈 Økonomi</span><span class="cat-pill" style="background:#d97706" onclick="document.getElementById('sec-Disasters-and-Emergencies').scrollIntoView({behavior:'smooth'})">⚠️ Katastrofer</span><span class="cat-pill" style="background:#0284c7" onclick="document.getElementById('sec-Science-and-Health').scrollIntoView({behavior:'smooth'})">🔬 Videnskab</span><span class="cat-pill" style="background:#6366f1" onclick="document.getElementById('sec-Technology-and-Innovation').scrollIntoView({behavior:'smooth'})">💻 Teknologi</span><span class="cat-pill" style="background:#16a34a" onclick="document.getElementById('sec-Sports-and-Recreation').scrollIntoView({behavior:'smooth'})">⚽ Sport</span><span class="cat-pill" style="background:#15803d" onclick="document.getElementById('sec-Environment-and-Climate').scrollIntoView({behavior:'smooth'})">🌍 Miljø</span></div>
+  </div>
+  <div id="news">
+        <div class="section-card" id="sec-Armed-Conflicts-and-International-Relations" style="border-top:3px solid #dc2626">
+          <div class="section-header" onclick="toggleCard(this)">
+            <span class="sec-icon">⚔️</span>
+            <span class="sec-title">Armed Conflicts and International Relations</span>
+            <span class="sec-count">2</span>
+            <span class="toggle-arrow">▼</span>
+          </div>
+          <div class="section-body">
+            <div class="article-item">
+              <div class="article-sub">
+                <span class="dot" style="background:#dc2626"></span>
+                Ongoing Military Operations
+              </div>
+              <p class="article-text">In Ukraine, Russian forces conducted drone strikes on Kyiv early Friday, damaging residential areas. Overnight on Monday, Russia launched an air attack on the city, igniting a fire in one district with no immediate casualty reports specified. Russian artillery targeted over 110 Ukrainian positions in the past week, while air defenses intercepted…</p>
+              <span class="readmore" onclick="toggleRead(this,'In Ukraine, Russian forces conducted drone strikes on Kyiv early Friday, damaging residential areas. Overnight on Monday, Russia launched an air attack on the city, igniting a fire in one district with no immediate casualty reports specified. Russian artillery targeted over 110 Ukrainian positions in the past week, while air defenses intercepted 33 Ukrainian drones over Russian territory. In southern Lebanon, Israeli airstrikes hit seven Hezbollah sites in multiple locations during two waves of attacks, including infrastructure and terrorist positions, following evacuation warnings. A separate drone strike in Bint Jbeil killed one person in a vehicle, part of wider operations that included at least 43 airstrikes north of the Litani River, destroying a residential complex east of Sidon. In Syria, Kurdish fighters were evacuated from Aleppo following days of violent clashes with Syrian government forces, who then swept the neighborhood amid resident stay-home orders. The Syrian army declared a ceasefire in Aleppo after heavy fighting with SDF forces. U.S. forces struck multiple ISIS targets in Syria as part of Operation Inherent Resolve, hitting fighters, infrastructure, and weapons sites. In Gaza, the United Nations warned of a severe humanitarian crisis, with nearly one-third of the population going days without eating amid acute food shortages and restricted aid access, calling on Israel to facilitate more humanitarian assistance. In Nigeria, gunmen killed at least 162 people in attacks on villages in Kwara state, targeting homes and shops.')">Læs mere</span>
+            </div>
+            <div class="article-item">
+              <div class="article-sub">
+                <span class="dot" style="background:#dc2626"></span>
+                Diplomatic Negotiations
+              </div>
+              <p class="article-text">Top diplomats from Greenland and Denmark held meetings with White House officials to discuss regional security and autonomy issues, amid surprise over a U.S. special envoy appointment for Greenland. These talks, occurring around January 8, highlighted tensions in Arctic diplomacy, with Danish and Greenlandic representatives seeking further…</p>
+              <span class="readmore" onclick="toggleRead(this,'Top diplomats from Greenland and Denmark held meetings with White House officials to discuss regional security and autonomy issues, amid surprise over a U.S. special envoy appointment for Greenland. These talks, occurring around January 8, highlighted tensions in Arctic diplomacy, with Danish and Greenlandic representatives seeking further engagement with U.S. figures like Senator Marco Rubio. In U.S.-China trade discussions, China&#39;s lead negotiator Li Chenggang faced criticism from U.S. Treasury Secretary Scott Bessent for breaching diplomatic norms, underscoring ongoing frictions in bilateral talks without reported breakthroughs as of January 11. Separately, the U.S. signaled potential easing of sanctions on Venezuela, with Treasury officials indicating possible lifts the following week to allow creditor engagement, as part of broader efforts to influence Venezuelan governance. On Russia-Ukraine tensions, President Trump endorsed a bipartisan sanctions bill imposing penalties for the ongoing war, including measures against Russian oil entities, marking an escalatory diplomatic stance without immediate negotiation venues specified. The New START treaty between the United States and Russia expired on February 5, 2026, prompting concerns over the potential for a renewed nuclear arms race.')">Læs mere</span>
+            </div></div>
+        </div>
+        <div class="section-card" id="sec-Politics-and-Governance" style="border-top:3px solid #7c3aed">
+          <div class="section-header" onclick="toggleCard(this)">
+            <span class="sec-icon">🏛️</span>
+            <span class="sec-title">Politics and Governance</span>
+            <span class="sec-count">2</span>
+            <span class="toggle-arrow">▼</span>
+          </div>
+          <div class="section-body">
+            <div class="article-item">
+              <div class="article-sub">
+                <span class="dot" style="background:#7c3aed"></span>
+                Elections and Referendums
+              </div>
+              <p class="article-text">In the United States off-year elections on November 4, 2025, Democrat Abigail Spanberger defeated Republican Winsome Earle-Sears to become Virginia's governor, securing 57.6% of the vote to Earle-Sears's 42.2%. Democrats also won the races for lieutenant governor, with Ghazala Hashmi taking the position, and attorney general, won by Jay Jones. In…</p>
+              <span class="readmore" onclick="toggleRead(this,'In the United States off-year elections on November 4, 2025, Democrat Abigail Spanberger defeated Republican Winsome Earle-Sears to become Virginia&#39;s governor, securing 57.6% of the vote to Earle-Sears&#39;s 42.2%. Democrats also won the races for lieutenant governor, with Ghazala Hashmi taking the position, and attorney general, won by Jay Jones. In New Jersey&#39;s gubernatorial election on the same date, Democrat Mikie Sherrill prevailed over Republican Jack Ciattarelli with 56.9% of the vote compared to 42.5%. New York City&#39;s mayoral race saw democratic socialist Zohran Mamdani win with 50.8% of the vote, ahead of independent Andrew Cuomo&#39;s 41.3% and Republican Curtis Sliwa&#39;s 7.0%. California voters approved Proposition 50 on congressional redistricting with 64.4% support. In Colorado, Proposition LL to retain excess revenue passed with 66.2% yes votes, and Proposition MM to raise taxes for school meals garnered 59.7% approval. These results marked significant Democratic gains in several high-profile races, viewed as an early test of political momentum.')">Læs mere</span>
+            </div>
+            <div class="article-item">
+              <div class="article-sub">
+                <span class="dot" style="background:#7c3aed"></span>
+                Policy Announcements
+              </div>
+              <p class="article-text">In the United States, President Trump announced plans for an executive order directing a ban on institutional investors purchasing single-family homes, aimed at improving housing affordability for individual buyers by curbing large-scale acquisitions that drive up prices; the policy targets real estate investment trusts and similar entities, with…</p>
+              <span class="readmore" onclick="toggleRead(this,'In the United States, President Trump announced plans for an executive order directing a ban on institutional investors purchasing single-family homes, aimed at improving housing affordability for individual buyers by curbing large-scale acquisitions that drive up prices; the policy targets real estate investment trusts and similar entities, with implementation phased over the coming months to prioritize owner-occupancy. The administration also announced an executive order prohibiting major defense contractors from conducting stock buybacks or issuing dividends if such actions hinder investment in critical weapons production, seeking to accelerate supply chain enhancements amid national security priorities; this affects the aerospace and defense sectors, with compliance enforced through federal contracting reviews starting immediately. Additionally, a directive was issued to the Attorney General to expedite rulemaking for rescheduling marijuana from Schedule I to Schedule III under the Controlled Substances Act, rationalized as recognizing its medical potential while maintaining controls on recreational use; this regulatory shift impacts pharmaceutical and agricultural sectors involved in cannabis research and production, with a timeline for proposed rules within 60 days. On January 26, 2026, President Trump threatened to raise tariffs on certain South Korean imports, including automobiles, lumber, and pharmaceuticals, to 25%, citing delays in trade deal negotiations. Bill and Hillary Clinton agreed to provide depositions to the House Oversight Committee in the investigation into Jeffrey Epstein, averting a contempt of Congress vote.')">Læs mere</span>
+            </div></div>
+        </div>
+        <div class="section-card" id="sec-Economy-and-Business" style="border-top:3px solid #059669">
+          <div class="section-header" onclick="toggleCard(this)">
+            <span class="sec-icon">📈</span>
+            <span class="sec-title">Economy and Business</span>
+            <span class="sec-count">2</span>
+            <span class="toggle-arrow">▼</span>
+          </div>
+          <div class="section-body">
+            <div class="article-item">
+              <div class="article-sub">
+                <span class="dot" style="background:#059669"></span>
+                Market Fluctuations
+              </div>
+              <p class="article-text">The Dow Jones Industrial Average experienced modest gains amid broader market volatility driven by tariff concerns and recession fears, closing with a weekly performance influenced by economic data releases. Similarly, the FTSE 100 index rose 0.84% to close at 10,129 points on the final trading day of the week, reflecting resilience in UK equities…</p>
+              <span class="readmore" onclick="toggleRead(this,'The Dow Jones Industrial Average experienced modest gains amid broader market volatility driven by tariff concerns and recession fears, closing with a weekly performance influenced by economic data releases. Similarly, the FTSE 100 index rose 0.84% to close at 10,129 points on the final trading day of the week, reflecting resilience in UK equities despite global uncertainties. The S&P 500 advanced 0.65% to 6,966.28, buoyed by tech sector momentum but tempered by sticky inflation signals. Currency markets saw the US dollar strengthen by 0.7% against the euro over the past week, attributed to differing monetary policy outlooks from central banks. In commodities, US crude oil prices rebounded for a weekly gain exceeding 3%, recovering from mid-week lows around $56 per barrel to highs near $60, amid shifting supply dynamics and demand forecasts. Gold prices also fluctuated, supported by investor hedging against volatility. These movements contributed to cautious investor sentiment, with tech valuations and budget negotiations amplifying sector-specific trends in equities while highlighting diversification challenges in a high-uncertainty environment.')">Læs mere</span>
+            </div>
+            <div class="article-item">
+              <div class="article-sub">
+                <span class="dot" style="background:#059669"></span>
+                Corporate Developments
+              </div>
+              <p class="article-text">U.S. Federal Trade Commission secured a ruling to block Edwards Lifesciences' proposed acquisition of JenaValve Technology, citing concerns over reduced competition in transcatheter heart valve systems for patients unsuitable for standard procedures. Citigroup named Gonzalo Luchetti as its next chief financial officer, effective early 2026…</p>
+              <span class="readmore" onclick="toggleRead(this,'U.S. Federal Trade Commission secured a ruling to block Edwards Lifesciences&#39; proposed acquisition of JenaValve Technology, citing concerns over reduced competition in transcatheter heart valve systems for patients unsuitable for standard procedures. Citigroup named Gonzalo Luchetti as its next chief financial officer, effective early 2026 following a transition period, to oversee financial strategy amid ongoing regulatory scrutiny. Xerox named Chuck Butler as CFO in response to recent financial losses, aiming to stabilize operations through cost controls and restructuring. Private equity firm L Catterton agreed to acquire Good Culture, a cottage cheese producer, in a deal emphasizing expansion in the high-protein dairy segment. Chinese regulators announced a review of Meta Platforms&#39; acquisition of Manus, focusing on export control implications in the AI sector. Biotech firm Revolution Medicines attracted takeover interest from potential acquirers, driven by its oncology pipeline advancements. Disney appointed Josh D&#39;Amaro, head of its parks division, as its new chief executive officer, replacing Bob Iger.')">Læs mere</span>
+            </div></div>
+        </div>
+        <div class="section-card" id="sec-Disasters-and-Emergencies" style="border-top:3px solid #d97706">
+          <div class="section-header" onclick="toggleCard(this)">
+            <span class="sec-icon">⚠️</span>
+            <span class="sec-title">Disasters and Emergencies</span>
+            <span class="sec-count">3</span>
+            <span class="toggle-arrow">▼</span>
+          </div>
+          <div class="section-body">
+            <div class="article-item">
+              <div class="article-sub">
+                <span class="dot" style="background:#d97706"></span>
+                Natural Catastrophes
+              </div>
+              <p class="article-text">Severe flooding struck North Halmahera regency in North Maluku province, central-eastern Indonesia, on January 7 following heavy rainfall, leading to fatalities, displacements, and infrastructure damage. In southern Iran, floods since mid-December affected 25 provinces including Fars, Hormozgan, and Khuzestan, resulting in 8 deaths including one…</p>
+              <span class="readmore" onclick="toggleRead(this,'Severe flooding struck North Halmahera regency in North Maluku province, central-eastern Indonesia, on January 7 following heavy rainfall, leading to fatalities, displacements, and infrastructure damage. In southern Iran, floods since mid-December affected 25 provinces including Fars, Hormozgan, and Khuzestan, resulting in 8 deaths including one rescuer, with the Iran Red Crescent Society coordinating response efforts. A magmatic eruption at a volcano in Albay province, Bicol region, southeastern Luzon Island, Philippines, occurred on January 1 and 6, producing ashfall, pyroclastic flows, and rockfalls, displacing residents in affected areas. Flash floods and river level warnings impacted Bosnia and Herzegovina&#39;s Trebizat river area, Lithuania&#39;s Leite region, and Poland&#39;s Nysa Klodzka on January 9, prompting alert thresholds but no reported casualties.')">Læs mere</span>
+            </div>
+            <div class="article-item">
+              <div class="article-sub">
+                <span class="dot" style="background:#d97706"></span>
+                Industrial Accidents
+              </div>
+              <p class="article-text">A chemical release at the Lubrizol Corporation facility in Deer Park, Texas, prompted an internal shelter-in-place order and the closure of Tidal Road during the response; the incident involved hazardous materials but posed no threat to nearby residents, with no immediate casualties reported. An explosion followed by a fire erupted at the Kalleh…</p>
+              <span class="readmore" onclick="toggleRead(this,'A chemical release at the Lubrizol Corporation facility in Deer Park, Texas, prompted an internal shelter-in-place order and the closure of Tidal Road during the response; the incident involved hazardous materials but posed no threat to nearby residents, with no immediate casualties reported. An explosion followed by a fire erupted at the Kalleh dairy plant in Amol, northern Iran, prompting emergency containment efforts amid ongoing national unrest, though officials attributed it to an industrial mishap without confirmed casualties or hazardous spills.')">Læs mere</span>
+            </div>
+            <div class="article-item">
+              <div class="article-sub">
+                <span class="dot" style="background:#d97706"></span>
+                Missing Persons
+              </div>
+              <p class="article-text">Nancy Guthrie, mother of NBC anchor Savannah Guthrie, was reported missing from her home in Arizona, with the local sheriff stating she did not leave willingly and suspecting abduction.</p>
+              
+            </div></div>
+        </div>
+        <div class="section-card" id="sec-Science-and-Health" style="border-top:3px solid #0284c7">
+          <div class="section-header" onclick="toggleCard(this)">
+            <span class="sec-icon">🔬</span>
+            <span class="sec-title">Science and Health</span>
+            <span class="sec-count">2</span>
+            <span class="toggle-arrow">▼</span>
+          </div>
+          <div class="section-body">
+            <div class="article-item">
+              <div class="article-sub">
+                <span class="dot" style="background:#0284c7"></span>
+                Research Advancements
+              </div>
+              <p class="article-text">Researchers at KAIST developed an injection that reprograms tumor-resident immune cells, such as macrophages, into cancer-fighting agents by enabling them to recognize and attack malignant cells directly within tumors. The methodology involves targeted drug delivery absorbed by these cells, demonstrating efficacy in preclinical models. This…</p>
+              <span class="readmore" onclick="toggleRead(this,'Researchers at KAIST developed an injection that reprograms tumor-resident immune cells, such as macrophages, into cancer-fighting agents by enabling them to recognize and attack malignant cells directly within tumors. The methodology involves targeted drug delivery absorbed by these cells, demonstrating efficacy in preclinical models. This advancement, announced on January 11, 2026, holds potential for novel immunotherapies that activate the body&#39;s innate defenses against cancer. A large-scale genetic screen uncovered hundreds of genes essential for transforming stem cells into brain cells, identifying a novel gene PEDS1 associated with an undescribed neurodevelopmental disorder. Conducted through comprehensive screening of molecular pathways, the study provides insights into brain development mechanisms and was published on January 11, 2026. Potential applications include targeted therapies for neurodevelopmental conditions. The James Webb Space Telescope observed a massive galactic eruption, revealing super-hot gas streams powered by a central black hole with energy output equivalent to 10 quintillion hydrogen bombs per second. Analysis of the telescope&#39;s infrared data highlighted the jets extending far beyond the galaxy, announced on January 10, 2026, advancing models of black hole activity and galactic evolution. A Chinese nuclear fusion reactor achieved a breakthrough by sustaining plasma density beyond a critical threshold, a key milestone for practical fusion energy. This experimental advancement, reported on January 9, 2026, involves advanced confinement techniques and could enable cleaner, sustainable power generation without relying on rare materials.')">Læs mere</span>
+            </div>
+            <div class="article-item">
+              <div class="article-sub">
+                <span class="dot" style="background:#0284c7"></span>
+                Epidemic Updates
+              </div>
+              <p class="article-text">The Texas Department of State Health Services declared the end of a measles outbreak in West Texas after more than 42 days without new cases, marking a decline in transmission following earlier hotspots. In Israel, the ongoing measles outbreak reported its 13th pediatric death, highlighting persistent hotspots amid vaccination gaps. California's…</p>
+              <span class="readmore" onclick="toggleRead(this,'The Texas Department of State Health Services declared the end of a measles outbreak in West Texas after more than 42 days without new cases, marking a decline in transmission following earlier hotspots. In Israel, the ongoing measles outbreak reported its 13th pediatric death, highlighting persistent hotspots amid vaccination gaps. California&#39;s Department of Public Health issued an advisory on rising influenza cases and hospital admissions statewide, urging enhanced surveillance and vaccination drives to mitigate strain on healthcare systems. Nationally, U.S. COVID-19 epidemic trends showed a declining reproduction number and low emergency department visits, indicating reduced case pressure despite seasonal factors. An ongoing Salmonella outbreak linked to raw oysters affected multiple U.S. states, prompting recalls and public advisories to curb foodborne spread.')">Læs mere</span>
+            </div></div>
+        </div>
+        <div class="section-card" id="sec-Technology-and-Innovation" style="border-top:3px solid #6366f1">
+          <div class="section-header" onclick="toggleCard(this)">
+            <span class="sec-icon">💻</span>
+            <span class="sec-title">Technology and Innovation</span>
+            <span class="sec-count">2</span>
+            <span class="toggle-arrow">▼</span>
+          </div>
+          <div class="section-body">
+            <div class="article-item">
+              <div class="article-sub">
+                <span class="dot" style="background:#6366f1"></span>
+                Product Launches
+              </div>
+              <p class="article-text">Novo Nordisk announced the broad availability of its Wegovy oral pill across the United States, marking the first oral GLP-1 receptor agonist approved for chronic weight management in adults with obesity or overweight conditions accompanied by weight-related medical problems. The pill offers a needle-free alternative to the injectable version,…</p>
+              <span class="readmore" onclick="toggleRead(this,'Novo Nordisk announced the broad availability of its Wegovy oral pill across the United States, marking the first oral GLP-1 receptor agonist approved for chronic weight management in adults with obesity or overweight conditions accompanied by weight-related medical problems. The pill offers a needle-free alternative to the injectable version, with clinical trials demonstrating up to 15% body weight reduction over 68 weeks when combined with diet and exercise. At CES 2026, Hypershell unveiled the world&#39;s first outdoor exoskeleton designed to augment human mobility rather than replace it, featuring servo motors and AI-driven assistance to reduce fatigue during hiking or trekking by up to 30%. The lightweight device, weighing under 5 kg, syncs with user movements via sensors for seamless power assistance, targeting adventure enthusiasts with a battery life supporting several hours of enhanced outdoor activity. Elser AI launched a generative tool enabling users to create full anime shorts from text prompts in minutes, leveraging advanced diffusion models for rapid video synthesis and animation. This software distinguishes itself with integrated voiceover and lip-sync features, aiming to democratize anime production for creators without traditional animation expertise.')">Læs mere</span>
+            </div>
+            <div class="article-item">
+              <div class="article-sub">
+                <span class="dot" style="background:#6366f1"></span>
+                Digital Security Incidents
+              </div>
+              <p class="article-text">A ransomware attack on Gulshan Management Services, operator of gas stations in Texas, compromised data of 377,000 individuals, prompting notifications to authorities and underscoring vulnerabilities in retail infrastructure. The Illinois Department of Human Services suffered a breach exposing personal information of nearly 700,000 residents due…</p>
+              <span class="readmore" onclick="toggleRead(this,'A ransomware attack on Gulshan Management Services, operator of gas stations in Texas, compromised data of 377,000 individuals, prompting notifications to authorities and underscoring vulnerabilities in retail infrastructure. The Illinois Department of Human Services suffered a breach exposing personal information of nearly 700,000 residents due to misconfigured privacy settings, leading to an investigation into the lapse and highlighting risks from human error in government systems. China-linked threat actors exploited three zero-day vulnerabilities in VMware ESXi hypervisors (CVE-2025-22224, CVE-2025-22225, CVE-2025-22226) to enable code execution and potential ransomware deployment, with cybersecurity firm Huntress mitigating an attempted intrusion and U.S. CISA adding the flaws to its known exploited vulnerabilities catalog for urgent patching. The BreachForums hacking forum experienced a leak of its own database containing 324,000 user accounts, exposing credentials and details in an ironic compromise that prompted community scrutiny but no official response from operators. These events, including state-sponsored phishing by North Korean actors using malicious QR codes against U.S. entities, emphasize the need for enhanced configuration audits and rapid vulnerability remediation to mitigate espionage and data exfiltration risks across sectors.')">Læs mere</span>
+            </div></div>
+        </div>
+        <div class="section-card" id="sec-Sports-and-Recreation" style="border-top:3px solid #16a34a">
+          <div class="section-header" onclick="toggleCard(this)">
+            <span class="sec-icon">⚽</span>
+            <span class="sec-title">Sports and Recreation</span>
+            <span class="sec-count">2</span>
+            <span class="toggle-arrow">▼</span>
+          </div>
+          <div class="section-body">
+            <div class="article-item">
+              <div class="article-sub">
+                <span class="dot" style="background:#16a34a"></span>
+                Tournament Results
+              </div>
+              <p class="article-text">In the U.S. Figure Skating Championships, Ilia Malinin secured his fourth consecutive men's title, while Madison Chock and Evan Bates claimed their seventh ice dance championship. The PNC Championship concluded with Team Kuchar winning at 33-under par, ahead of Teams Love and Daly at 26-under. Amelie Zalsman won the Sally Championship golf…</p>
+              <span class="readmore" onclick="toggleRead(this,'In the U.S. Figure Skating Championships, Ilia Malinin secured his fourth consecutive men&#39;s title, while Madison Chock and Evan Bates claimed their seventh ice dance championship. The PNC Championship concluded with Team Kuchar winning at 33-under par, ahead of Teams Love and Daly at 26-under. Amelie Zalsman won the Sally Championship golf tournament at a record 15-under par, finishing two strokes ahead of Kary Hollenbaugh after a final-round 72.')">Læs mere</span>
+            </div>
+            <div class="article-item">
+              <div class="article-sub">
+                <span class="dot" style="background:#16a34a"></span>
+                Athlete Milestones
+              </div>
+              <p class="article-text">Evan Jager, the American steeplechaser and North American record-holder in the event, announced his retirement from competitive athletics on November 24, 2025. Sprinter Marvin Bracy-Williams, a former World Championships medallist, was handed a 45-month anti-doping sanction by the United States Anti-Doping Agency for a violation.</p>
+              
+            </div></div>
+        </div>
+        <div class="section-card" id="sec-Environment-and-Climate" style="border-top:3px solid #15803d">
+          <div class="section-header" onclick="toggleCard(this)">
+            <span class="sec-icon">🌍</span>
+            <span class="sec-title">Environment and Climate</span>
+            <span class="sec-count">2</span>
+            <span class="toggle-arrow">▼</span>
+          </div>
+          <div class="section-body">
+            <div class="article-item">
+              <div class="article-sub">
+                <span class="dot" style="background:#15803d"></span>
+                Weather Extremes
+              </div>
+              <p class="article-text">Severe thunderstorms across the central Plains generated a tornado that tore through Purcell, Oklahoma, leaving a trail of structural damage including downed power lines and uprooted trees, amid broader gusty winds and hail impacting multiple states. This event was fueled by unstable atmospheric conditions with high shear and moisture influx from…</p>
+              <span class="readmore" onclick="toggleRead(this,'Severe thunderstorms across the central Plains generated a tornado that tore through Purcell, Oklahoma, leaving a trail of structural damage including downed power lines and uprooted trees, amid broader gusty winds and hail impacting multiple states. This event was fueled by unstable atmospheric conditions with high shear and moisture influx from the Gulf of Mexico, deviating from typical winter patterns. Heavy snowfall blanketed regions from Colorado eastward into Kansas, with accumulations exceeding several inches in under 24 hours, disrupting transportation and prompting winter storm warnings over a wide geographic swath of the central U.S. The rapid intensification stemmed from a potent upper-level trough interacting with cold air masses, producing anomalously heavy precipitation rates for the season. Eastern U.S. states faced a stormy weekend featuring flooding downpours and mixed snow, where rainfall rates led to localized flash flooding and infrastructure strain, affecting urban areas with overwhelmed drainage systems. These conditions arose from a stalled frontal boundary channeling warm, moist air northward, creating prolonged convective activity unusual for mid-winter timing.')">Læs mere</span>
+            </div>
+            <div class="article-item">
+              <div class="article-sub">
+                <span class="dot" style="background:#15803d"></span>
+                Ecological Reports
+              </div>
+              <p class="article-text">A recent assessment highlighted threats to pollinators in Brazil, where lithium mining operations contribute to deforestation and pollution, endangering bee populations critical for local ecosystems. In the United States, horseshoe crab populations face heightened extinction risks due to habitat loss and overexploitation, prompting legal…</p>
+              <span class="readmore" onclick="toggleRead(this,'A recent assessment highlighted threats to pollinators in Brazil, where lithium mining operations contribute to deforestation and pollution, endangering bee populations critical for local ecosystems. In the United States, horseshoe crab populations face heightened extinction risks due to habitat loss and overexploitation, prompting legal challenges for stronger protections under federal law. Conservation efforts for whooping cranes, which rebounded from near-extinction through decades of intervention, now confront converging threats on their Texas wintering grounds, including habitat degradation. In Connecticut, over a quarter of plant and wildlife species require expanded research amid declining populations and emerging threats, underscoring gaps in data for effective restoration strategies. Global analyses indicate nearly 49,000 species are threatened with extinction, driven by factors like habitat destruction, emphasizing the urgency for policy shifts toward habitat restoration projects.')">Læs mere</span>
+            </div></div>
+        </div></div>
+</main>
+<footer>
+  Data fra <a href="https://grokipedia.com/page/PortalCurrent_events" target="_blank">Grokipedia Portal: Current Events</a>
+  &nbsp;·&nbsp; Opdateres automatisk via GitHub Actions hver 3. time &nbsp;·&nbsp; 25. July 2026 kl. 15:40 UTC
+</footer>
+<script>
+function toggleCard(hdr){var b=hdr.nextElementSibling,a=hdr.querySelector('.toggle-arrow'),o=b.style.display!=='none';b.style.display=o?'none':'block';a.style.transform=o?'rotate(-90deg)':'';}
+function toggleRead(el,full){var p=el.previousElementSibling;if(el.dataset.exp){p.textContent=p.dataset.s;el.textContent='Læs mere';delete el.dataset.exp;}else{p.dataset.s=p.textContent;p.textContent=full;el.textContent='Vis mindre';el.dataset.exp=1;}}
+</script>
 </body>
 </html>
