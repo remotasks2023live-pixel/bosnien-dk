@@ -6,9 +6,11 @@ Bruger headless Chromium til at hente JavaScript-rendered indhold fra Grokipedia
 
 import re
 import sys
+import time
 import html2text
 from datetime import datetime, timezone
 from playwright.sync_api import sync_playwright
+from deep_translator import GoogleTranslator
 
 URL = "https://grokipedia.com/page/PortalCurrent_events"
 
@@ -260,6 +262,39 @@ function toggleRead(el,full){{var p=el.previousElementSibling;if(el.dataset.exp)
 </html>"""
 
 
+def translate_sections(sections):
+    """Oversætter alle artikel-titler og tekster til dansk via Google Translate."""
+    print("Oversætter indhold til dansk...")
+    translator = GoogleTranslator(source="auto", target="da")
+    total = sum(len(s["subsections"]) for s in sections)
+    count = 0
+
+    for section in sections:
+        for sub in section["subsections"]:
+            count += 1
+            print(f"  [{count}/{total}] {sub['title'][:50]}")
+            try:
+                sub["title"] = translator.translate(sub["title"]) or sub["title"]
+                time.sleep(0.2)
+                # Google Translate maks 5000 tegn pr. kald
+                text = sub["text"]
+                if len(text) <= 4999:
+                    sub["text"] = translator.translate(text) or text
+                else:
+                    # Opdel i to halvdele ved nærmeste mellemrum
+                    mid = text.rfind(" ", 0, 4999)
+                    part1 = translator.translate(text[:mid]) or text[:mid]
+                    time.sleep(0.2)
+                    part2 = translator.translate(text[mid:].strip()) or text[mid:].strip()
+                    sub["text"] = part1 + " " + part2
+                time.sleep(0.2)
+            except Exception as e:
+                print(f"    Oversættelsesfejl (beholder original): {e}")
+
+    print(f"Oversættelse færdig.")
+    return sections
+
+
 def main():
     print("Starter Playwright og henter Grokipedia...")
     try:
@@ -289,6 +324,7 @@ def main():
     for s in sections:
         print(f"  · {s['title']}: {len(s['subsections'])} artikler")
 
+    sections = translate_sections(sections)
     updated_at = datetime.now(timezone.utc)
     output = build_html(sections, updated_at)
 
